@@ -60,4 +60,19 @@
     <Folder Include="PreDeploy" />
     <Folder Include="Tables" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="local.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\tblMovie.sql" />
+    <Build Include="Tables\tblOrder.sql" />
+    <Build Include="Tables\tblOrderItem.sql" />
+    <Build Include="Tables\tblRating.sql" />
+    <Build Include="Tables\tblUser.sql" />
+    <Build Include="Tables\tblMovieGenre.sql" />
+    <Build Include="Tables\tblCustomer.sql" />
+    <Build Include="Tables\tblDirector.sql" />
+    <Build Include="Tables\tblFormat.sql" />
+    <Build Include="Tables\tblGenre.sql" />
+  </ItemGroup>
 </Project>
