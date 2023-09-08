@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BJM.DVDCentral.BL.Models", "BJM.DVDCentral.BL.Models\BJM.DVDCentral.BL.Models.csproj", "{A00EE8E9-C272-4DC3-91B9-18D2192A8CD1}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BJM.DVDCentral.DB", "BJM.DVDCentral.DB\BJM.DVDCentral.DB.sqlproj", "{EB096C7B-EF9A-48F1-A845-618383E0C395}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A00EE8E9-C272-4DC3-91B9-18D2192A8CD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A00EE8E9-C272-4DC3-91B9-18D2192A8CD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00EE8E9-C272-4DC3-91B9-18D2192A8CD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A00EE8E9-C272-4DC3-91B9-18D2192A8CD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB096C7B-EF9A-48F1-A845-618383E0C395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB096C7B-EF9A-48F1-A845-618383E0C395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB096C7B-EF9A-48F1-A845-618383E0C395}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EB096C7B-EF9A-48F1-A845-618383E0C395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB096C7B-EF9A-48F1-A845-618383E0C395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB096C7B-EF9A-48F1-A845-618383E0C395}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54AA81C5-5673-4347-9900-0EC4D34FBB41}
+	EndGlobalSection
+EndGlobal
