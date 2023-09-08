@@ -8,5 +8,9 @@ namespace BJM.DVDCentral.BL.Models
 {
     internal class Order
     {
+        public int Id { get; set; }
+        public string CustomerId { get; set; } = string.Empty;
+        public int UserId { get; set; }
+        public DateTime ShipDate { get; set; }
     }
 }

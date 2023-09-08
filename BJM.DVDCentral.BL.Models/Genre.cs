@@ -8,5 +8,7 @@ namespace BJM.DVDCentral.BL.Models
 {
     internal class Genre
     {
+        public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }

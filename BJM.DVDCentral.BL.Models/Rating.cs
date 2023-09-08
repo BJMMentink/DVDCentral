@@ -8,5 +8,7 @@ namespace BJM.DVDCentral.BL.Models
 {
     internal class Rating
     {
+        public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }
