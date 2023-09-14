@@ -59,9 +59,20 @@
     <Folder Include="PostDeploy" />
     <Folder Include="PreDeploy" />
     <Folder Include="Tables" />
+    <Folder Include="PostDeploy\DefaultData" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local.publish.xml" />
+    <None Include="PostDeploy\DefaultData\Customers.sql" />
+    <None Include="PostDeploy\DefaultData\Directors.sql" />
+    <None Include="PostDeploy\DefaultData\Formats.sql" />
+    <None Include="PostDeploy\DefaultData\Genres.sql" />
+    <None Include="PostDeploy\DefaultData\Movies.sql" />
+    <None Include="PostDeploy\DefaultData\MovieGenres.sql" />
+    <None Include="PostDeploy\DefaultData\Orders.sql" />
+    <None Include="PostDeploy\DefaultData\OrderItems.sql" />
+    <None Include="PostDeploy\DefaultData\Ratings.sql" />
+    <None Include="PostDeploy\DefaultData\Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\tblMovie.sql" />
@@ -74,5 +85,11 @@
     <Build Include="Tables\tblDirector.sql" />
     <Build Include="Tables\tblFormat.sql" />
     <Build Include="Tables\tblGenre.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="PostDeploy\Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="PreDeploy\Script.PreDeployment1.sql" />
   </ItemGroup>
 </Project>
