@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BJM.DVDCentral.BL.Models
 {
-    internal class Rating
+    public class Rating
     {
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;

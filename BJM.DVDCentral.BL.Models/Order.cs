@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BJM.DVDCentral.BL.Models
 {
-    internal class Order
+    public class Order
     {
         public int Id { get; set; }
         public string CustomerId { get; set; } = string.Empty;
