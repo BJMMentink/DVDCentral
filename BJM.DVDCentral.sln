@@ -7,16 +7,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BJM.DVDCentral.BL.Models", 
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BJM.DVDCentral.DB", "BJM.DVDCentral.DB\BJM.DVDCentral.DB.sqlproj", "{EB096C7B-EF9A-48F1-A845-618383E0C395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BJM.DVDCentral.PL", "BJM.DVDCentral.PL\BJM.DVDCentral.PL.csproj", "{2708BB05-4A1D-45C6-A7CE-B19A58F3E5E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BJM.DVDCentral.PL", "BJM.DVDCentral.PL\BJM.DVDCentral.PL.csproj", "{2708BB05-4A1D-45C6-A7CE-B19A58F3E5E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0984D87-8AC8-4CFA-ADC5-9F78A61B7A27}"
 	ProjectSection(SolutionItems) = preProject
 		TextFile1.txt = TextFile1.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BJM.DVDCentral.PL.Test", "BJM.DVDCentral.PL.Test\BJM.DVDCentral.PL.Test.csproj", "{64862037-970F-4D5C-8823-84108ABBA46D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BJM.DVDCentral.PL.Test", "BJM.DVDCentral.PL.Test\BJM.DVDCentral.PL.Test.csproj", "{64862037-970F-4D5C-8823-84108ABBA46D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BJM.DVDCentral.BL", "BJM.DVDCentral.BL\BJM.DVDCentral.BL.csproj", "{1F45F7B5-887B-4CF8-B162-EBA995716275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BJM.DVDCentral.BL", "BJM.DVDCentral.BL\BJM.DVDCentral.BL.csproj", "{1F45F7B5-887B-4CF8-B162-EBA995716275}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BJM.DVDCentral.BL.Test", "BJM.DVDCentral.BL.Test\BJM.DVDCentral.BL.Test.csproj", "{1E5585A0-A424-4037-A90D-D78499B8FD28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{1F45F7B5-887B-4CF8-B162-EBA995716275}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F45F7B5-887B-4CF8-B162-EBA995716275}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F45F7B5-887B-4CF8-B162-EBA995716275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5585A0-A424-4037-A90D-D78499B8FD28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5585A0-A424-4037-A90D-D78499B8FD28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5585A0-A424-4037-A90D-D78499B8FD28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5585A0-A424-4037-A90D-D78499B8FD28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
