@@ -37,7 +37,6 @@ namespace BJM.DVDCentral.PL.Test
             entity.Description = "Test";
             entity.Cost = -99;
             entity.RatingId = 1;
-            entity.FormatId = 1;
             entity.DirectorId = 1;
 
             dc.tblMovie.Add(entity);
