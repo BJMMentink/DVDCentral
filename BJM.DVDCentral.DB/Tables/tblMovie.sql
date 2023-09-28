@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[tblMovies]
+﻿CREATE TABLE [dbo].[tblMovie]
 (
 	[Id] INT NOT NULL PRIMARY KEY,
 	[Title] VARCHAR(50) NOT NULL,

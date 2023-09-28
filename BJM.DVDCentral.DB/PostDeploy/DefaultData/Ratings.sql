@@ -1,5 +1,5 @@
 ﻿Begin
-    INSERT INTO [dbo].[tblRatingh] ([Id], [Description])
+    INSERT INTO [dbo].[tblRating] ([Id], [Description])
     VALUES
         (1, 'PG-13'),
         (2, 'R'),
