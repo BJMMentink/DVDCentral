@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BJM.DVDCentral.BL.Models\BJM.DVDCentral.BL.Models.csproj" />
+    <ProjectReference Include="..\BJM.DVDCentral.BL\BJM.DVDCentral.BL.csproj" />
+  </ItemGroup>
+
+</Project>
