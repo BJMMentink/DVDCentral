@@ -3,6 +3,7 @@ using BJM.DVDCentral.PL;
 using BJM.DVDCentral.BL.Models;
 using System.Xml;
 using Microsoft.EntityFrameworkCore.Storage;
+using static Azure.Core.HttpHeader;
 
 namespace BJM.DVDCentral.BL
 {
@@ -136,7 +137,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static List<Movie> Load()
+        public static List<Movie> Load(int? movieId = null)
         {
             try
             {
@@ -144,6 +145,13 @@ namespace BJM.DVDCentral.BL
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
                     (from s in dc.tblMovie
+                     join d in dc.tblDirectors on 
+                     s.DirectorId equals d.Id 
+                     join r in dc.tblRatings on
+                     s.RatingId equals r.Id
+                     join f in dc.tblFormats on
+                     s.FormatId equals f.Id
+                     where s.Id == movieId || movieId == null
                      select new
                      {
                          s.Id,
@@ -155,6 +163,11 @@ namespace BJM.DVDCentral.BL
                          s.Cost,
                          s.RatingId,
                          s.DirectorId,
+                         DirectorName = d.FirstName + " " + d.LastName,
+                         RatingDescription = r.Description,
+                         FormatDescription = f.Description,
+
+
                      })
                      .ToList()
                      .ForEach(movie => list.Add(new Movie
@@ -167,8 +180,11 @@ namespace BJM.DVDCentral.BL
                          FormatId = movie.FormatId,
                          Cost = (float)movie.Cost,
                          RatingId = movie.RatingId,
-                         DirectorId = movie.DirectorId
-
+                         DirectorId = movie.DirectorId,
+                         DirectorName = movie.DirectorName,
+                         RatingDescription = movie.RatingDescription,
+                         FormatDescription = movie.FormatDescription,
+                         
                      }));
                 }
                 return list;

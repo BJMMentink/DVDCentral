@@ -7,7 +7,7 @@ public partial class tblOrderItem
 {
     public int Id { get; set; }
 
-    public int OrderId { get; set; }
+    public int OrderId { get; set; } = 0;
 
     public int MovieId { get; set; }
 

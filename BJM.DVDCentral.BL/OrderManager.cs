@@ -23,6 +23,11 @@ namespace BJM.DVDCentral.BL
                     entity.CustomerId = order.CustomerId;
                     entity.UserId = order.UserId;
                     entity.OrderDate = order.OrderDate;
+                    foreach (OrderItem orderItem in order.Items)
+                    {
+                        OrderItemManager.Insert(orderItem, rollback);
+                    }
+
                     order.Id = entity.Id;
                     dc.tblOrders.Add(entity);
                     results = dc.SaveChanges();
@@ -107,6 +112,7 @@ namespace BJM.DVDCentral.BL
                             CustomerId = entity.CustomerId,
                             UserId = entity.UserId,
                             OrderDate = entity.OrderDate,
+                            Items = OrderItemManager.LoadByOrderId(entity.Id)
                         };
                     }
                     else
@@ -144,8 +150,8 @@ namespace BJM.DVDCentral.BL
                          CustomerId = order.CustomerId,
                          UserId = order.UserId,
                          OrderDate = order.OrderDate,
-                         ShipDate = order.ShipDate
-
+                         ShipDate = order.ShipDate,
+                         Items = OrderItemManager.LoadByOrderId(order.Id)
                      }));
                 }
                 return list;

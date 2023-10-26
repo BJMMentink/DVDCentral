@@ -23,6 +23,8 @@ namespace BJM.DVDCentral.BL
                     entity.MovieId = orderItem.MovieId;
                     entity.Quantity = orderItem.Quantity;
                     entity.Cost = orderItem.Cost;
+
+                   
                     orderItem.Id = entity.Id;
                     dc.tblOrderItems.Add(entity);
                     results = dc.SaveChanges();
@@ -110,6 +112,7 @@ namespace BJM.DVDCentral.BL
                             MovieId = entity.MovieId,
                             Quantity = entity.Quantity,
                             Cost = entity.Cost
+
                         };
                     }
                     else
@@ -123,7 +126,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static List<OrderItem> Load()
+        public static List<OrderItem> LoadByOrderId(int orderid)
         {
             try
             {
@@ -131,6 +134,42 @@ namespace BJM.DVDCentral.BL
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
                     (from s in dc.tblOrderItems
+                    where s.Id == orderid
+                    select new
+                    {
+                        s.Id,
+                        s.OrderId,
+                        s.MovieId,
+                        s.Quantity,
+                        s.Cost
+                    })
+                    .ToList()
+                    .ForEach(order => list.Add(new OrderItem
+                    {
+                        Id = order.Id,
+                        OrderId = order.OrderId,
+                        MovieId = order.MovieId,
+                        Quantity = order.Quantity,
+                        Cost = order.Cost
+                    }));
+                    return list;
+                   
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static List<OrderItem> Load(int? CustomerId = null)
+        {
+            try
+            {
+                List<OrderItem> list = new List<OrderItem>();
+                using (DVDCentralEntities dc = new DVDCentralEntities())
+                {
+                    (from s in dc.tblOrderItems
+                     where s.Id == CustomerId || CustomerId == null
                      select new
                      {
                          s.Id,
