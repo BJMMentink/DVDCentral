@@ -166,7 +166,7 @@ namespace BJM.DVDCentral.BL
                          DirectorName = d.FirstName + " " + d.LastName,
                          RatingDescription = r.Description,
                          FormatDescription = f.Description,
-
+                         
 
                      })
                      .ToList()
@@ -181,7 +181,7 @@ namespace BJM.DVDCentral.BL
                          Cost = (float)movie.Cost,
                          RatingId = movie.RatingId,
                          DirectorId = movie.DirectorId,
-                         DirectorName = movie.DirectorName,
+
                          RatingDescription = movie.RatingDescription,
                          FormatDescription = movie.FormatDescription,
                          

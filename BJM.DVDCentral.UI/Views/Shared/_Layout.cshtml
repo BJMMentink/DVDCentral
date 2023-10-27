@@ -23,6 +23,9 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Rating" asp-action="Index">Rating</a>
                         </li>
                         <li class="nav-item">
@@ -37,20 +40,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Movie" asp-action="Index">Movie</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar rounded-top">
+                <div class="header rounded-top p-1">
+                    <h4>Programs</h4>
+                </div>
+                <div>
+                    @await Component.InvokeAsync("Sidebar")
+                </div>
+            </div>
+            <div class="col-md-9 main body-content rounded-top">
+                <div class="header rounded-top p-1">
+                    <h4>@ViewBag.Title</h4>
+                </div>
+                <main role="main" class="pb-3">
+                    <div class="text-danger ms-2">
+                        <h4>@ViewBag.Error</h4>
+                    </div>
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - BJM.DVDCentral.UI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

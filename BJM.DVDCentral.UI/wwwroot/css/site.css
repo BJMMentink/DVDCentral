@@ -21,5 +21,56 @@ body {
   margin-bottom: 60px;
 }
 .bg-dark {
-    background: linear-gradient(90deg,rgba(2,0,36,1) 0%, rgba(102,51,153,1) 35%);
+    background: linear-gradient(90deg,rgba(0,0,0,1) 0%, rgba(255,20,0,.7) 35%);
+}
+.card-img {
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.header {
+    margin: 0px;
+    padding: 0px;
+    background-color: orange;
+}
+
+    .header h1, .header h2, .header h3, .header h4, .header h5 {
+        margin: 0px;
+        padding: 0px;
+        color: darkblue;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+.main {
+    margin: 0px;
+    padding: 0px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.sidebar {
+    margin: 0px 10px 0px 10px;
+    padding: 0px;
+    min-height: 500px;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+    .sidebar ul {
+        list-style-type: none;
+        padding-left: 5px;
+        padding-right: 0px;
+    }
+
+.table th {
+    background-color: rgba(182,33,0,1);
+    color: mistyrose
+}
+
+.table tr:nth-child(even) {
+    background-color: rgba(182,33,0,.3);
 }
