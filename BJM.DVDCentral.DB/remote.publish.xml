@@ -4,12 +4,13 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseName>dvdcentraldb</TargetDatabaseName>
     <DeployScriptFileName>BJM.DVDCentral.DB.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=server-21296-300079207.database.windows.net;Persist Security Info=False;User ID=300079207@fvtc.edu;Pooling=False;Multiple Active Result Sets=False;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;Authentication=ActiveDirectoryInteractive;Command Timeout=0</TargetConnectionString>
+    <TargetConnectionString>Data Source=server-21296-300079207.database.windows.net;Persist Security Info=True;User ID=300079207db;Pooling=False;Multiple Active Result Sets=False;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;Command Timeout=0</TargetConnectionString>
     <BlockOnPossibleDataLoss>True</BlockOnPossibleDataLoss>
     <DatabaseEdition>Basic</DatabaseEdition>
     <DatabaseServiceObjective>Basic</DatabaseServiceObjective>
     <DatabaseMaximumSize>2</DatabaseMaximumSize>
     <CreateNewDatabase>False</CreateNewDatabase>
     <ProfileVersionNumber>1</ProfileVersionNumber>
+    <ScriptDatabaseOptions>False</ScriptDatabaseOptions>
   </PropertyGroup>
 </Project>
