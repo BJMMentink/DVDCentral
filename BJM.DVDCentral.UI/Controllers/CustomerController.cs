@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BJM.DVDCentral.UI.Controllers
 {
-    public class GenreController : Controller
+    public class CustomerController : Controller
     {
         public IActionResult Index()
         {
-            return View(GenreManager.Load());
+            return View(CustomerManager.Load());
         }
         public IActionResult Details(int id)
         {
-            return View(GenreManager.LoadById(id));
+            return View(CustomerManager.LoadById(id));
         }
         public IActionResult Create()
         {
@@ -22,11 +22,11 @@ namespace BJM.DVDCentral.UI.Controllers
                 return RedirectToAction("Login", "User", new { returnUrl = UriHelper.GetDisplayUrl(HttpContext.Request) });
         }
         [HttpPost]
-        public IActionResult Create(Genre genre, bool rollback = false)
+        public IActionResult Create(Customer director, bool rollback = false)
         {
             try
             {
-                int result = GenreManager.Insert(genre, rollback);
+                int result = CustomerManager.Insert(director, rollback);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)
@@ -38,40 +38,41 @@ namespace BJM.DVDCentral.UI.Controllers
         public IActionResult Edit(int id)
         {
             if (Authenticate.IsAuthenticated(HttpContext))
-                return View(GenreManager.LoadById(id));
+                return View(CustomerManager.LoadById(id));
             else
-                return RedirectToAction("Login", "User", new { returnUrl = UriHelper.GetDisplayUrl(HttpContext.Request) });   
+                return RedirectToAction("Login", "User", new { returnUrl = UriHelper.GetDisplayUrl(HttpContext.Request) });
+            
         }
         [HttpPost]
-        public IActionResult Edit(int id, Genre genre, bool rollback = false)
+        public IActionResult Edit(int id, Customer director, bool rollback = false)
         {
             try
             {
-                int result = GenreManager.Update(genre, rollback);
+                int result = CustomerManager.Update(director, rollback);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                return View(genre);
+                return View(director);
             }
         }
         public IActionResult Delete(int id)
         {
-            return View(GenreManager.LoadById(id));
+            return View(CustomerManager.LoadById(id));
         }
         [HttpPost]
-        public IActionResult Delete(int id, Genre genre, bool rollback = false)
+        public IActionResult Delete(int id, Customer director, bool rollback = false)
         {
             try
             {
-                int result = GenreManager.Delete(id, rollback);
+                int result = CustomerManager.Delete(id, rollback);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                return View(genre);
+                return View(director);
             }
         }
     }

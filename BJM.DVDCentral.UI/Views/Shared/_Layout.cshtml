@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -35,11 +36,30 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Movie" asp-action="Index">Movie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Director" asp-action="Index">Director</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Movie" asp-action="Index">Movie</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Genre" asp-action="Index">Genre</a>
+                        </li>
+                        @{
+                            HttpContext httpContext = Context.Request.HttpContext;
+                        if (Authenticate.IsAuthenticated(httpContext))
+                        {
+                            <li class="nav-item ms-auto">
+                                <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                                <!-- <span class="nav-link text-light">Welcome</span> -->
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ms-auto">
+                                <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            </li>
+                        }
+                        }
                     </ul>
                 </div>
             </div>

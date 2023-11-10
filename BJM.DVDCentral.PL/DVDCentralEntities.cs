@@ -183,7 +183,7 @@ public partial class DVDCentralEntities : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.UserName)
+            entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });

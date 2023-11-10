@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BJM.DVDCentral.BL.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace BJM.DVDCentral.UI.Controllers
 {
@@ -7,6 +9,10 @@ namespace BJM.DVDCentral.UI.Controllers
         public IActionResult Index()
         {
             return View(MovieManager.Load());
+        }
+        public IActionResult Browse(int id)
+        {
+            return View(nameof(Index), MovieManager.Load(id));
         }
     }
 }

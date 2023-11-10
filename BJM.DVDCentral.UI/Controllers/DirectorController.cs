@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BJM.DVDCentral.UI.Models;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BJM.DVDCentral.UI.Controllers
 {
@@ -14,7 +16,10 @@ namespace BJM.DVDCentral.UI.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            if (Authenticate.IsAuthenticated(HttpContext))
+                return View();
+            else
+                return RedirectToAction("Login", "User", new { returnUrl = UriHelper.GetDisplayUrl(HttpContext.Request) });
         }
         [HttpPost]
         public IActionResult Create(Director director, bool rollback = false)
@@ -32,7 +37,11 @@ namespace BJM.DVDCentral.UI.Controllers
         }
         public IActionResult Edit(int id)
         {
-            return View(DirectorManager.LoadById(id));
+            if (Authenticate.IsAuthenticated(HttpContext))
+                return View(DirectorManager.LoadById(id));
+            else
+                return RedirectToAction("Login", "User", new { returnUrl = UriHelper.GetDisplayUrl(HttpContext.Request) });
+            
         }
         [HttpPost]
         public IActionResult Edit(int id, Director director, bool rollback = false)
