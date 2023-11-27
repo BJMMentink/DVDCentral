@@ -35,39 +35,8 @@
             <div class="form-group m-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-            <div class="col-md-8">
-                <h4>Order Items</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <label asp-for="Items[0].MovieId" class="control-label"></label>
-                            </th>
-                            <th>
-                                <label asp-for="Items[0].Quantity" class="control-label"></label>
-                            </th>
-                            <th>
-                                <label asp-for="Items[0].Cost" class="control-label"></label>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i < Model.Items.Count; i++)
-                        {
-                            <tr>
-                                <td>
-                                    <input asp-for="Items[i].MovieId" class="form-control" />
-                                </td>
-                                <td>
-                                    <input asp-for="Items[i].Quantity" class="form-control" />
-                                </td>
-                                <td>
-                                    <input asp-for="Items[i].Cost" class="form-control" />
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div>
+                <partial name="_OrderPartial" model="Model.Items" />
             </div>
         </form>
     </div>

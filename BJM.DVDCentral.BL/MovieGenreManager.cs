@@ -9,24 +9,22 @@ namespace BJM.DVDCentral.BL
 {
     public class MovieGenreManager
     {
-        public static int Insert(Movie movie, Genre genre, bool rollback = false)
+        public static void Insert(int MovieId, int GenreId, bool rollback = false)
         {
             try
             {
-                int results = 0;
+                IDbContextTransaction transaction = null;
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
-                    IDbContextTransaction transaction = null;
-                    if (rollback) transaction = dc.Database.BeginTransaction();
-                    tblMovieGenre entity = new tblMovieGenre();
-                    entity.Id = dc.tblMovieGenres.Any() ? dc.tblMovieGenres.Max(s => s.Id) + 1 : 1;
-                    entity.MovieId = movie.Id;
-                    entity.GenreId = genre.Id;
-                    dc.tblMovieGenres.Add(entity);
-                    results = dc.SaveChanges();
+                    tblMovieGenre MovieGenre = new tblMovieGenre();
+                    MovieGenre.GenreId = GenreId;
+                    MovieGenre.MovieId = MovieId;
+                    MovieGenre.Id = dc.tblMovieGenres.Any() ? dc.tblMovieGenres.Max(sa => sa.Id) + 1 : 1;
+
+                    dc.tblMovieGenres.Add(MovieGenre);
+                    dc.SaveChanges();
                     if (rollback) transaction.Rollback();
                 }
-                return results;
             }
             catch (Exception)
             {
@@ -62,7 +60,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(int MovieId, int GenreId, bool rollback = false)
         {
             try
             {
@@ -71,10 +69,10 @@ namespace BJM.DVDCentral.BL
                 {
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
-                    tblMovieGenre entity = dc.tblMovieGenres.FirstOrDefault(s => s.Id == id);
-                    if (entity != null)
+                    tblMovieGenre? tblmovieGenre = dc.tblMovieGenres.FirstOrDefault(s => s.Id == MovieId && s.GenreId == GenreId);
+                    if (tblmovieGenre != null)
                     {
-                        dc.tblMovieGenres.Remove(entity);
+                        dc.tblMovieGenres.Remove(tblmovieGenre);
                         results = dc.SaveChanges();
                     }
                     else

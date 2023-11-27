@@ -60,6 +60,7 @@ namespace BJM.DVDCentral.BL
                         entity.Cost = movie.Cost;
                         entity.RatingId = movie.RatingId;
                         entity.DirectorId = movie.DirectorId;
+                        
                         results = dc.SaveChanges();
                     }
                     else
@@ -109,7 +110,29 @@ namespace BJM.DVDCentral.BL
             {
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
-                    tblMovie entity = dc.tblMovie.FirstOrDefault(s => s.Id == id);
+                    var entity = (
+                        from movie in dc.tblMovie
+                        join director in dc.tblDirectors on movie.DirectorId equals director.Id
+                        join rating in dc.tblRatings on movie.RatingId equals rating.Id
+                        join format in dc.tblFormats on movie.FormatId equals format.Id
+                        where movie.Id == id
+                        select new
+                        {
+                            movie.Id,
+                            movie.Description,
+                            movie.InStkQty,
+                            movie.ImagePath,
+                            movie.Title,
+                            movie.FormatId,
+                            movie.Cost,
+                            movie.RatingId,
+                            movie.DirectorId,
+                            DirectorName = director.FirstName + " " + director.LastName,
+                            RatingDescription = rating.Description,
+                            FormatDescription = format.Description
+                        }
+                    ).FirstOrDefault();
+
                     if (entity != null)
                     {
                         return new Movie
@@ -122,8 +145,10 @@ namespace BJM.DVDCentral.BL
                             FormatId = entity.FormatId,
                             Cost = (float)entity.Cost,
                             RatingId = entity.RatingId,
-                            DirectorId = entity.DirectorId
-
+                            DirectorId = entity.DirectorId,
+                            DirectorName = entity.DirectorName,
+                            RatingDescription = entity.RatingDescription,
+                            FormatDescription = entity.FormatDescription
                         };
                     }
                     else
@@ -181,7 +206,7 @@ namespace BJM.DVDCentral.BL
                          Cost = (float)movie.Cost,
                          RatingId = movie.RatingId,
                          DirectorId = movie.DirectorId,
-
+                         DirectorName = movie.DirectorName,
                          RatingDescription = movie.RatingDescription,
                          FormatDescription = movie.FormatDescription,
                          

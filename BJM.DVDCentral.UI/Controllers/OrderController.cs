@@ -42,7 +42,7 @@ namespace BJM.DVDCentral.UI.Controllers
                 return View(OrderManager.LoadById(id));
             else
                 return RedirectToAction("Login", "User", new { returnUrl = UriHelper.GetDisplayUrl(HttpContext.Request) });
-            
+
         }
         [HttpPost]
         public IActionResult Edit(int id, Order director, bool rollback = false)

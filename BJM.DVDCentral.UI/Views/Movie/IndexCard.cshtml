@@ -1,0 +1,38 @@
+﻿@model IEnumerable<BJM.DVDCentral.BL.Models.Movie>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="row">
+    @foreach(var item in Model)
+    {
+        <div class="col-sm-4">
+            <div class="card mb-2">
+                <div class="card-header">
+                    <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="card-img"><img id="movieimage" alt="@item.Description" src="~/images/@item.ImagePath" onclick="on('/images/@item.ImagePath')" class="imagepropmed" /></div>
+                    <h5 class="fl">@Html.DisplayNameFor(modelItem => item.Description)</h5>
+                    <h5 class="fr mb-2">@Html.DisplayFor(modelItem => item.Description)</h5><br><br>
+                    <h5 class="fl">@Html.DisplayNameFor(modelItem => item.Cost)</h5>
+                    <h5 class="fr mb-2">@Html.DisplayFor(modelItem => item.Cost)</h5><br><br>
+                    <h5 class="fl">@Html.DisplayNameFor(modelItem => item.InStkQty)</h5>
+                    <h5 class="fr mb-2">@Html.DisplayFor(modelItem => item.InStkQty)</h5><br><br>
+                    <h5 class="fl">@Html.DisplayNameFor(modelItem => item.RatingDescription)</h5>
+                    <h5 class="fr mb-2">@Html.DisplayFor(modelItem => item.RatingDescription)</h5><br><br>
+                    <h5 class="fl">@Html.DisplayNameFor(modelItem => item.FormatDescription)</h5>
+                    <h5 class="fr mb-2">@Html.DisplayFor(modelItem => item.FormatDescription)</h5><br><br>
+                    <h5 class="fl">@Html.DisplayNameFor(modelItem => item.DirectorName)</h5>
+                    <h5 class="fr mb-2">@Html.DisplayFor(modelItem => item.DirectorName)</h5>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-primary" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+                    <a class="btn btn-sm btn-primary" asp-route-id="@item.Id" asp-action="Details">Details</a>
+                    <a class="btn btn-sm btn-primary" asp-route-id="@item.Id" asp-action="Delete">Delete</a>
+                </div>
+            </div>     
+        </div>
+    }
+</div>

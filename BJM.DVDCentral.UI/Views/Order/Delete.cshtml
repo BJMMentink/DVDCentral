@@ -35,33 +35,9 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OrderDate)
         </dd>
-        <dd class="col-md-8">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Movie ID</th> <!--TODO Will update with actual movie name-->
-                        <th>Quantity</th>
-                        <th>Cost</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Items)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MovieId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Quantity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cost)
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </dd>
+        <div>
+            <partial name="_OrderPartial" model="Model.Items" />
+        </div>
     </dl>
     
     <form asp-action="Delete">

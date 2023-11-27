@@ -10,11 +10,11 @@ namespace BJM.DVDCentral.UI.Controllers
         {
             return View();
         }
-        public IActionResult Seed()
-        {
-            UserManager.Seed();
-            return View();
-        }
+        //public IActionResult Seed()
+        //{
+        //    UserManager.Seed();
+        //    return View();
+        //}
         private void SetUser(User user)
         {
             HttpContext.Session.SetObject("user", user);
@@ -49,10 +49,11 @@ namespace BJM.DVDCentral.UI.Controllers
                 if (TempData["returnUrl"] != null)
                 return Redirect(TempData["returnUrl"]?.ToString());
                 else
-                return RedirectToAction(nameof(Index), "");
+                return RedirectToAction(nameof(Index), "Movie");
             }
             catch (Exception ex)
             {
+                ViewBag.Error = ex.Message;
                 return View(user);
             }
         }

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,21 +45,36 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Genre" asp-action="Index">Genre</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Index">User</a>
+                        </li>
                         @{
+                            BJM.DVDCentral.BL.UserManager.Seed();
                             HttpContext httpContext = Context.Request.HttpContext;
-                        if (Authenticate.IsAuthenticated(httpContext))
-                        {
-                            <li class="nav-item ms-auto">
-                                <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
-                                <!-- <span class="nav-link text-light">Welcome</span> -->
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item ms-auto">
-                                <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Login">Login</a>
-                            </li>
-                        }
+                            if (Authenticate.IsAuthenticated(httpContext))
+                            {
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        @{
+                                            
+                                            var fullname = HttpContextAccessor.HttpContext?.Session.GetString("fullname");
+                                            if (fullname != null) fullname = fullname.Replace("\"", "");
+                                        }
+                                        <a class="nav-link text-light">@fullname</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                                        <!-- <span class="nav-link text-light">Welcome</span> -->
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <li class="nav-item ms-auto">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                                </li>
+                            }
+                            
                         }
                     </ul>
                 </div>
@@ -73,6 +89,11 @@
                 </div>
                 <div>
                     @await Component.InvokeAsync("Sidebar")
+                </div>
+            </div>
+            <div id="overlay" onclick="off()">
+                <div class="imageproplarge">
+                    <img class="imageproplarge" id="output" />
                 </div>
             </div>
             <div class="col-md-9 main body-content rounded-top">
@@ -99,3 +120,15 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script type="text/javascript">
+    function off() {
+        console.log('Off')
+        document.getElementById("overlay").style.display = "none";
+    }
+    function on(picture) {
+        console.log('On')
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("output").src = picture;
+    }
+</script>
