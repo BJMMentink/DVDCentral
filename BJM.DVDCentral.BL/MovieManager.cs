@@ -115,6 +115,7 @@ namespace BJM.DVDCentral.BL
                         join director in dc.tblDirectors on movie.DirectorId equals director.Id
                         join rating in dc.tblRatings on movie.RatingId equals rating.Id
                         join format in dc.tblFormats on movie.FormatId equals format.Id
+                        join gemre in dc.tblMovieGenres on movie.Id equals gemre.MovieId
                         where movie.Id == id
                         select new
                         {
@@ -129,7 +130,8 @@ namespace BJM.DVDCentral.BL
                             movie.DirectorId,
                             DirectorName = director.FirstName + " " + director.LastName,
                             RatingDescription = rating.Description,
-                            FormatDescription = format.Description
+                            FormatDescription = format.Description,
+                            Genre = MovieGenreManager.LoadById(movie.Id),
                         }
                     ).FirstOrDefault();
 
@@ -148,7 +150,9 @@ namespace BJM.DVDCentral.BL
                             DirectorId = entity.DirectorId,
                             DirectorName = entity.DirectorName,
                             RatingDescription = entity.RatingDescription,
-                            FormatDescription = entity.FormatDescription
+                            FormatDescription = entity.FormatDescription,
+                            Genre = MovieGenreManager.LoadById(entity.Id),
+
                         };
                     }
                     else
@@ -191,7 +195,7 @@ namespace BJM.DVDCentral.BL
                          DirectorName = d.FirstName + " " + d.LastName,
                          RatingDescription = r.Description,
                          FormatDescription = f.Description,
-                         
+
 
                      })
                      .ToList()
@@ -209,7 +213,8 @@ namespace BJM.DVDCentral.BL
                          DirectorName = movie.DirectorName,
                          RatingDescription = movie.RatingDescription,
                          FormatDescription = movie.FormatDescription,
-                         
+                         Genre = MovieGenreManager.LoadById(movie.Id),
+
                      }));
                 }
                 return list;

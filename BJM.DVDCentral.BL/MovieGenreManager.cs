@@ -68,8 +68,8 @@ namespace BJM.DVDCentral.BL
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
                     IDbContextTransaction transaction = null;
-                    if (rollback) transaction = dc.Database.BeginTransaction();
-                    tblMovieGenre? tblmovieGenre = dc.tblMovieGenres.FirstOrDefault(s => s.Id == MovieId && s.GenreId == GenreId);
+                    if (rollback == true) transaction = dc.Database.BeginTransaction();
+                    tblMovieGenre tblmovieGenre = dc.tblMovieGenres.FirstOrDefault(s => s.GenreId == GenreId && s.MovieId == MovieId);
                     if (tblmovieGenre != null)
                     {
                         dc.tblMovieGenres.Remove(tblmovieGenre);
@@ -88,7 +88,49 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-       
+        public static List<Genre> LoadById(int movieId)
+        {
+            try
+            {
+                using (DVDCentralEntities dc = new DVDCentralEntities())
+                {
+                    var genres = (from mg in dc.tblMovieGenres
+                                  join g in dc.tblGenres on mg.GenreId equals g.Id
+                                  where mg.MovieId == movieId
+                                  select new Genre
+                                  {
+                                      Id = mg.GenreId,
+                                      Description = g.Description,
+                                  }).ToList();
+
+                    return genres;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static List<string> LoadByMovieId(int movieId)
+        {
+            try
+            {
+                using (DVDCentralEntities dc = new DVDCentralEntities())
+                {
+                    var genreDescriptions = (from mg in dc.tblMovieGenres
+                                             join g in dc.tblGenres on mg.GenreId equals g.Id
+                                             where mg.MovieId == movieId
+                                             select g.Description).ToList();
+
+                    return genreDescriptions;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
 /**/

@@ -105,15 +105,17 @@ namespace BJM.DVDCentral.UI.Controllers
                 }
                 IEnumerable<int> newGenreIds = new List<int>();
                 if (movieViewModel.GenreId != null)
-                {
                     newGenreIds = movieViewModel.GenreId;
-                }
+                
                 IEnumerable<int> oldGenreIds = new List<int>();
                 oldGenreIds = GetObject();
+
                 IEnumerable<int> deletes = oldGenreIds.Except(newGenreIds);
                 IEnumerable<int> adds = newGenreIds.Except(oldGenreIds);
+
                 deletes.ToList().ForEach(d => MovieGenreManager.Delete(id, d));
                 adds.ToList().ForEach(a => MovieGenreManager.Insert(id, a));
+
                 int result = MovieManager.Update(movieViewModel.Movie, rollback);
                 return RedirectToAction(nameof(Index));
             }
