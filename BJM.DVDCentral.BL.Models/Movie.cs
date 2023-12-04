@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace BJM.DVDCentral.BL.Models
         public string Description { get; set; } = string.Empty;
 
         [DisplayName("Cost")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+
         public float Cost { get; set; }
 
         [DisplayName("Rating ID")]
