@@ -1,0 +1,48 @@
+﻿@model BJM.DVDCentral.BL.Models.ShoppingCart
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Order Details</h2>
+@*     <p><strong>Customer Name:</strong> @Model.Order.Customer.FullName</p>
+    <p><strong>Order Date:</strong> @Model.Items.OrderDate</p>
+    <p><strong>Ship Date:</strong> @Model.Items.ShipDate</p> *@
+    <p><strong>Sub Total:</strong> @Model.SubTotal.ToString("c")</p>
+    <p><strong>Tax:</strong> @Model.Tax.ToString("c")</p>
+    <p><strong>Total:</strong> @Model.Total.ToString("c")</p>
+</div>
+
+<div>
+    <h2>Movies</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Movie Picture</th>
+                <th>Movie Name</th>
+                <th>Cost</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody>
+                @foreach (var group in Model.Items.GroupBy(item => item.Description))
+                {
+                    var uniqueItem = group.FirstOrDefault();
+                <tr>
+                    <td><img  src="~/images/@uniqueItem.ImagePath" alt="@uniqueItem.ImagePath" class="imagepropsmall"></td>
+                    <td>@uniqueItem.Title</td>
+                    <td>@uniqueItem.Cost</td>
+                    <td>@group.Count()</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" asp-route-id="@uniqueItem.Id" asp-action="Remove">Remove</a>
+                    </td>
+                </tr>
+                }
+        </tbody>
+        </tbody>
+    </table>
+</div>
+
+<a class="btn btn-primary" asp-action="Index" asp-controller="Movie">Return to Movies</a>

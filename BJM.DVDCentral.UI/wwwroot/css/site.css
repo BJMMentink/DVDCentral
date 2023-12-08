@@ -117,9 +117,15 @@ body {
 div.dataTables_filter, div.dataTables_lengthm, .dataTables_wrapper {
     padding: 5px;
 }
+
 .fl {
     float: left;
 }
+
 .fr {
     float: right;
+}
+
+option:checked {
+    background-color: rgba(102, 51, 153, .25);
 }

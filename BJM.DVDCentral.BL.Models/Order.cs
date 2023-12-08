@@ -14,5 +14,6 @@ namespace BJM.DVDCentral.BL.Models
         public DateTime ShipDate { get; set; }
         public DateTime OrderDate { get; set; }
         public List<OrderItem> Items { get; set; } = new List<OrderItem>();
+
     }
 }

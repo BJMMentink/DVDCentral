@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BJM.DVDCentral.UI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
 </head>
 <body>
     <header>
@@ -85,10 +89,16 @@
         <div class="row">
             <div class="col-md-2 sidebar rounded-top">
                 <div class="header rounded-top p-1">
-                    <h4>Programs</h4>
+                    <h4>Movies</h4>
                 </div>
                 <div>
                     @await Component.InvokeAsync("Sidebar")
+                </div>
+                <div class="header p-1">
+                    <h4>Shopping Cart</h4>
+                </div>
+                <div>
+                    @await Component.InvokeAsync("ShoppingCartComponent")
                 </div>
             </div>
             <div id="overlay" onclick="off()">
@@ -130,5 +140,15 @@
         console.log('On')
         document.getElementById("overlay").style.display = "block";
         document.getElementById("output").src = picture;
+    }
+</script>
+<script type="text/javascript">
+    function AddToCart(id) {
+        $.get("/ShoppingCart/Add/" + id, function (data) {
+            var cartcount = parseInt($("#cartcount").val()) + 1;
+            $("#cartcount").val(cartcount);
+            $("#cartcountdisp").text(cartcount + " items");
+            console.log(cartcount + " items");
+        });
     }
 </script>

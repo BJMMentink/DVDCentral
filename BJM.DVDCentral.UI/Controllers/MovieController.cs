@@ -16,18 +16,23 @@ namespace BJM.DVDCentral.UI.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Title = "List of Movies";
             return View("IndexCard", MovieManager.Load());
         }
         public IActionResult Browse(int id)
         {
+
             return View(nameof(Index), MovieManager.Load(id));
         }
         public IActionResult Details(int id)
         {
-            return View(MovieManager.LoadById(id));
+            ViewBag.Title = "Details for this movie";
+            var movie = MovieManager.LoadById(id);
+            return View(movie);
         }
         public IActionResult Create()
         {
+            ViewBag.Title = "Create a movie";
             MovieViewModel movieViewModel = new MovieViewModel();
             return View(movieViewModel);
         }
@@ -58,12 +63,15 @@ namespace BJM.DVDCentral.UI.Controllers
             }
             catch (Exception ex)
             {
+                ViewBag.Title = "Create a movie";
+                ViewBag.Error = ex.Message;
                 return View(movieViewModel);
             }
         }
         
         public IActionResult Delete(int id)
         {
+            ViewBag.Title = "Delete a movie";
             return View(MovieManager.LoadById(id));
         }
         [HttpPost]
@@ -76,12 +84,14 @@ namespace BJM.DVDCentral.UI.Controllers
             }
             catch (Exception ex)
             {
+                ViewBag.Title = "Delete a movie";
                 ViewBag.Error = ex.Message;
                 return View(movie);
             }
         }
         public IActionResult Edit(int id)
         {
+            ViewBag.Title = "Edit a movie";
             MovieViewModel movieViewModel = new MovieViewModel(id);
             //ViewBag.Title = "Edit " + movieViewModel.Movie.Title;
             HttpContext.Session.SetObject("genreids", movieViewModel.GenreId);

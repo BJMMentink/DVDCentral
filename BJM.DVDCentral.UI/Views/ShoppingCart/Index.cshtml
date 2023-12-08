@@ -1,0 +1,53 @@
+﻿@model BJM.DVDCentral.BL.Models.ShoppingCart
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Quantity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model.Items.GroupBy(item => item.Description))
+        {
+            var uniqueItem = group.FirstOrDefault();
+            <tr>
+                <td>@uniqueItem.Title</td>
+                <td>@uniqueItem.Description</td>
+                <td>@uniqueItem.Cost</td>
+                <td>@group.Count()</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-route-id="@uniqueItem.Id" asp-action="Remove">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Subtotal</th>
+                <th>Tax</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.SubTotal.ToString("C")</td>
+                <td>@Model.Tax.ToString("C")</td>
+                <td>@Model.Total.ToString("C")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="CheckOut" asp-controller="ShoppingCart">Checkout</a>
+</div>

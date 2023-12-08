@@ -133,26 +133,24 @@ namespace BJM.DVDCentral.BL
                 List<Order> list = new List<Order>();
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
-                    (from s in dc.tblOrders
-                     select new
-                     {
-                         s.Id,
-                         s.CustomerId,
-                         s.UserId,
-                         s.OrderDate,
-                         s.ShipDate
-                        
-                     })
-                     .ToList()
-                     .ForEach(order => list.Add(new Order
-                     {
-                         Id = order.Id,
-                         CustomerId = order.CustomerId,
-                         UserId = order.UserId,
-                         OrderDate = order.OrderDate,
-                         ShipDate = order.ShipDate,
-                         Items = OrderItemManager.LoadByOrderId(order.Id)
-                     }));
+                    var orders = (from s in dc.tblOrders
+                                  select new
+                                  {
+                                      s.Id,
+                                      s.CustomerId,
+                                      s.UserId,
+                                      s.OrderDate,
+                                      s.ShipDate
+                                  }).ToList();
+
+                    orders.ForEach(order => list.Add(new Order
+                    {
+                        Id = order.Id,
+                        CustomerId = order.CustomerId,
+                        UserId = order.UserId,
+                        OrderDate = order.OrderDate,
+                        ShipDate = order.ShipDate
+                    }));
                 }
                 return list;
             }
@@ -161,5 +159,6 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
+
     }
 }

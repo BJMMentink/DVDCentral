@@ -35,12 +35,35 @@
             <div class="form-group m-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-            <div>
-                <partial name="_OrderPartial" model="Model.Items" />
-            </div>
         </form>
     </div>
 </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Movie Title</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+            <th></th> <!-- Column for the delete button -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@* @item.Movie.Title *@</td>
+                <td>@item.Quantity</td>
+                <td>@item.Cost</td>
+                <td>
+                    <form asp-controller="OrderItem" asp-action="Remove" method="post">
+                        <input type="hidden" asp-for="Id" value="@item.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div>
     <a asp-action="Index">Back to List</a>

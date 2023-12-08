@@ -17,5 +17,12 @@ namespace BJM.DVDCentral.BL.Models
         public string ZIP { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public int UserId { get; set; }
+        public string FullName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
     }
 }
