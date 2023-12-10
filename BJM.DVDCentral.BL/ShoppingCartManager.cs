@@ -38,16 +38,20 @@ namespace BJM.DVDCentral.BL
                 Order order = new Order
                 {
                     CustomerId = 1,
-                    UserId = 1, 
+                    UserId = 1,
                     OrderDate = DateTime.Now,
-                    ShipDate = DateTime.Now.AddDays(3)
+                    ShipDate = DateTime.Now.AddDays(3),
+                    
                 };
                 foreach (var item in cart.Items)
                 {
                     OrderItem orderItem = new OrderItem
                     {
                         MovieId = item.Id,
-                        Quantity = 1 
+                        OrderId = dc.tblOrders.Any() ? dc.tblOrders.Max(s => s.Id) + 1 : 1,
+                        Quantity = 1,
+                        Cost = item.Cost,
+
                     };
                     order.Items.Add(orderItem);
                     tblMovie entity = dc.tblMovie.FirstOrDefault(s => s.Id == item.Id);

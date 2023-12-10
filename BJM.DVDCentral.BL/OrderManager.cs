@@ -105,15 +105,24 @@ namespace BJM.DVDCentral.BL
                     tblOrder entity = dc.tblOrders.FirstOrDefault(s => s.Id == id);
                     if (entity != null)
                     {
-                        return new Order
+                        Order order = new Order
                         {
                             Id = entity.Id,
                             ShipDate = entity.ShipDate,
                             CustomerId = entity.CustomerId,
                             UserId = entity.UserId,
                             OrderDate = entity.OrderDate,
-                            Items = OrderItemManager.LoadByOrderId(entity.Id)
+                            Items = new List<OrderItem>() 
                         };
+
+                       
+                        var orderItems = OrderItemManager.LoadByOrderId(entity.Id);
+                        foreach (var item in orderItems)
+                        {
+                            order.Items.Add(item); 
+                        }
+
+                        return order;
                     }
                     else
                     {

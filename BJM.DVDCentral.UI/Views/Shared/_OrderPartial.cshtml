@@ -5,6 +5,7 @@
     <table id="orderItemsTable" class="table">
         <thead>
             <tr>
+                <th>Order ID</th>
                 <th>Movie ID</th>
                 <th>Quantity</th>
                 <th>Cost</th>
@@ -12,16 +13,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var orderItem in Model)
+            @{
+                var groupedItems = Model.GroupBy(item => item.MovieId);
+            }
+            @foreach (var group in groupedItems)
             {
+                var totalQuantity = group.Sum(item => item.Quantity);
+                var firstItem = group.First(); 
+
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => orderItem.MovieId)</td>
-                    <td>@Html.DisplayFor(modelItem => orderItem.Quantity)</td>
-                    <td>@Html.DisplayFor(modelItem => orderItem.Cost)</td>
+                    <td>@Html.DisplayFor(modelItem => firstItem.OrderId)</td>
+                    <td>@Html.DisplayFor(modelItem => firstItem.MovieId)</td>
+                    <td>@totalQuantity</td>
+                    <td>@(firstItem.Cost.ToString("C"))</td>
                     <td>
-                        <a asp-controller="Advisor" asp-action="Edit" asp-route-id="@orderItem.Id">Edit</a>
-                        <a asp-controller="Advisor" asp-action="Details" asp-route-id="@orderItem.Id">Details</a>
-                        <a asp-controller="Advisor" asp-action="Delete" asp-route-id="@orderItem.Id">Delete</a>
+                        @foreach (var orderItem in group)
+                        {
+                            <a asp-controller="Advisor" asp-action="Edit" asp-route-id="@orderItem.Id">Edit</a>
+                            <a asp-controller="Advisor" asp-action="Details" asp-route-id="@orderItem.Id">Details</a>
+                            <a asp-controller="Advisor" asp-action="Delete" asp-route-id="@orderItem.Id">Delete</a>
+                        }
                     </td>
                 </tr>
             }

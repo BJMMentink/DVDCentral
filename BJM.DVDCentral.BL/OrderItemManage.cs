@@ -133,33 +133,27 @@ namespace BJM.DVDCentral.BL
                 List<OrderItem> list = new List<OrderItem>();
                 using (DVDCentralEntities dc = new DVDCentralEntities())
                 {
-                    (from s in dc.tblOrderItems
-                    where s.Id == orderid
-                    select new
-                    {
-                        s.Id,
-                        s.OrderId,
-                        s.MovieId,
-                        s.Quantity,
-                        s.Cost
-                    })
-                    .ToList()
-                    .ForEach(order => list.Add(new OrderItem
-                    {
-                        Id = order.Id,
-                        OrderId = order.OrderId,
-                        MovieId = order.MovieId,
-                        Quantity = order.Quantity,
-                        Cost = order.Cost
-                    }));
-                    return list;
-                   
+                    
+                    var orderItems = (from s in dc.tblOrderItems
+                                      where s.OrderId == orderid
+                                      select new OrderItem
+                                      {
+                                          Id = s.Id,
+                                          OrderId = s.OrderId,
+                                          MovieId = s.MovieId,
+                                          Quantity = s.Quantity,
+                                          Cost = s.Cost
+                                      }).ToList();
+
+                    list.AddRange(orderItems); 
                 }
+                return list;
             }
             catch (Exception)
             {
                 throw;
             }
+
         }
         public static List<OrderItem> Load(int? CustomerId = null)
         {
