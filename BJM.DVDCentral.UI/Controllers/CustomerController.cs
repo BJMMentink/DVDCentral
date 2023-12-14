@@ -16,6 +16,7 @@ namespace BJM.DVDCentral.UI.Controllers
         }
         public IActionResult Create()
         {
+            ViewBag.Title = "Create A customer";
             if (Authenticate.IsAuthenticated(HttpContext))
                 return View();
             else

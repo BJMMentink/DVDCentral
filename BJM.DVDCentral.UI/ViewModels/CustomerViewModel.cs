@@ -5,13 +5,16 @@ namespace BJM.DVDCentral.UI.ViewModels
 {
     public class CustomerViewModel
     {
-        public Customer Customer { get; set; }
-        public List<User> Users { get; set; }
+        public int CustomerId { get; set; } = 0;
+        public string CustomerName { get; set; }
+        public List<Customer> Customers { get; set; }
+        public int UserId { get; set; } = 0;
+        public List<ShoppingCart> Cart { get; set; }
 
         public CustomerViewModel()
         {
-            Customer = new Customer(); 
-            Users = new List<User>();
+            Customers = new List<Customer>();
+            Cart = new List<ShoppingCart>();
         }
     }
 }

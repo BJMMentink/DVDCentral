@@ -26,7 +26,7 @@ namespace BJM.DVDCentral.BL
                 cart.Items.Remove(movie);
             }
         }
-        public static void Checkout(ShoppingCart cart)
+        public static void Checkout(ShoppingCart cart, int UserId, int CustId)
         {
             if (cart == null || cart.Items.Count == 0)
             {
@@ -37,8 +37,8 @@ namespace BJM.DVDCentral.BL
             {
                 Order order = new Order
                 {
-                    CustomerId = 1,
-                    UserId = 1,
+                    CustomerId = CustId,
+                    UserId = UserId,
                     OrderDate = DateTime.Now,
                     ShipDate = DateTime.Now.AddDays(3),
                     
