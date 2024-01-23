@@ -8,5 +8,5 @@ public class tblFormat
     public Guid Id { get; set; }
 
     public string Description { get; set; } = null!;
-    public virtual ICollection<tblMovie> tblMovies { get; set; } = new List<tblMovie>();
+    public virtual ICollection<tblMovie> tblMovies { get; set; } 
 }

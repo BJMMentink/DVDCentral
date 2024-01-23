@@ -21,8 +21,8 @@ public class tblMovie
     public int Quantity { get; set; }
 
     public string ImagePath { get; set; } = null!;
-    public virtual ICollection<tblMovieGenre> tblMovieGenres { get; set; } = new List<tblMovieGenre>();
-    public virtual tblRating Rating { get; set; } = new tblRating();
-    public virtual tblDirector Director { get; set; } = new tblDirector();
-    public virtual tblFormat Format { get; set; } = new tblFormat();
+    public virtual ICollection<tblMovieGenre> tblMovieGenres { get; set; }
+    public virtual tblRating Rating { get; set; } 
+    public virtual tblDirector Director { get; set; }
+    public virtual tblFormat Format { get; set; } 
 }

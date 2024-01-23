@@ -8,5 +8,5 @@ public class tblGenre
     public Guid Id { get; set; }
 
     public string Description { get; set; } = null!;
-    public virtual ICollection<tblMovieGenre> tblMovieGenres { get; set; } = new List<tblMovieGenre>();
+    public virtual ICollection<tblMovieGenre> tblMovieGenres { get; set; } 
 }

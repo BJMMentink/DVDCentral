@@ -10,5 +10,5 @@ public class tblDirector
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
-    public virtual ICollection<tblMovie> tblMovies { get; set; } = new List<tblMovie>();
+    public virtual ICollection<tblMovie> tblMovies { get; set; } 
 }
