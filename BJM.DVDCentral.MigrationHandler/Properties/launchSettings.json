@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BJM.DVDCentral.MigrationHandler": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59720;http://localhost:59721"
+    }
+  }
+}

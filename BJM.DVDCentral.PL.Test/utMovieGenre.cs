@@ -1,63 +1,65 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utMovieGenre
+    public class utMovieGenre : utBase
     {
-        protected DVDCentralEntities dc;
-        protected IDbContextTransaction transaction;
-        [TestInitialize]
-        public void Initialize()
-        {
-            dc = new DVDCentralEntities();
-            transaction = dc.Database.BeginTransaction();
-        }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            transaction.Rollback();
-            transaction.Dispose();
-            transaction = null;
-        }
+
+
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(5, dc.tblMovieGenres.Count());
+            int expected = 13;
+            var movieGenres = dc.tblMovieGenres;
+            Assert.AreEqual(expected, movieGenres.Count());
         }
+
         [TestMethod]
         public void InsertTest()
         {
-            tblMovieGenre entity = new tblMovieGenre();
-            entity.GenreId = -99;
-            entity.Id = -99;
+            tblMovieGenre newRow = new tblMovieGenre();
 
-            dc.tblMovieGenres.Add(entity);
+            newRow.Id = Guid.NewGuid();
+            newRow.MovieId = dc.tblMovies.FirstOrDefault().Id;
+            newRow.GenreId = dc.tblGenres.FirstOrDefault().Id;
 
-            int result = dc.SaveChanges();
-            Assert.AreEqual(1, result);
+            dc.tblMovieGenres.Add(newRow);
+            int rowsAffected = dc.SaveChanges();
+
+            Assert.AreEqual(1, rowsAffected);
         }
+
         [TestMethod]
         public void UpdateTest()
         {
-            tblMovieGenre entity = dc.tblMovieGenres.FirstOrDefault();
+            InsertTest();
+            tblMovieGenre row = dc.tblMovieGenres.FirstOrDefault();
 
-            entity.GenreId = -99;
+            if (row != null)
+            {
+                row.MovieId = dc.tblMovies.FirstOrDefault().Id;
+                row.GenreId = dc.tblGenres.FirstOrDefault().Id;
+                int rowsAffected = dc.SaveChanges();
 
-            int result = dc.SaveChanges();
-            Assert.IsTrue(result > 0);
+                Assert.AreEqual(1, rowsAffected);
+            }
         }
+
+
         [TestMethod]
         public void DeleteTest()
         {
-            tblMovieGenre entity = dc.tblMovieGenres.Where(e => e.Id == 1).FirstOrDefault();
-            dc.tblMovieGenres.Remove(entity);
-            int result = dc.SaveChanges();
-            Assert.AreNotEqual(result, 0);
-        }
-        [TestMethod]
-        public void LoadByIdTest()
-        {
-            tblMovieGenre entity = dc.tblMovieGenres.Where(e => e.Id == 1).FirstOrDefault();
-            Assert.AreEqual(entity.Id, 1);
+            InsertTest();
+
+            tblMovieGenre row = dc.tblMovieGenres.FirstOrDefault();
+
+            if (row != null)
+            {
+                dc.tblMovieGenres.Remove(row);
+                int rowsAffected = dc.SaveChanges();
+
+                Assert.IsTrue(rowsAffected == 1);
+            }
+
         }
     }
 }

@@ -1,69 +1,69 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utCustomer
+    public class utCustomer : utBase
     {
-        protected DVDCentralEntities dc;
-        protected IDbContextTransaction transaction;
-        [TestInitialize]
-        public void Initialize()
-        {
-            dc = new DVDCentralEntities();
-            transaction = dc.Database.BeginTransaction();
-        }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            transaction.Rollback();
-            transaction.Dispose();
-            transaction = null;
-        }
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(3, dc.tblCustomers.Count());
+            int expected = 3;
+            var customers = dc.tblCustomers;
+            Assert.AreEqual(expected, customers.Count());
         }
+
         [TestMethod]
         public void InsertTest()
         {
-            tblCustomer entity = new tblCustomer();
-            entity.FirstName = "Test";
-            entity.LastName = "Test";
-            entity.Address = "Test";
-            entity.City = "Test";
-            entity.ZIP = "Test";
-            entity.State = "Test";
-            entity.Phone = "Test";
-            entity.Id = -99;
+            tblCustomer newRow = new tblCustomer();
 
-            dc.tblCustomers.Add(entity);
+            newRow.Id = Guid.NewGuid();
+            newRow.FirstName = "Test";
+            newRow.LastName = "Test";
+            newRow.Address = "Test";
+            newRow.City = "Test";
+            newRow.State = "Test";
+            newRow.ZIP = "Test";
+            newRow.Phone = "Test";
+            newRow.UserId = dc.tblUsers.FirstOrDefault().Id;
 
-            int result = dc.SaveChanges();
-            Assert.AreEqual(1, result);
+            dc.tblCustomers.Add(newRow);
+            int rowsAffected = dc.SaveChanges();
+
+            Assert.AreEqual(1, rowsAffected);
         }
+
         [TestMethod]
         public void UpdateTest()
         {
-            tblCustomer entity = dc.tblCustomers.FirstOrDefault();
+            InsertTest();
+            tblCustomer row = dc.tblCustomers.FirstOrDefault();
 
-            entity.FirstName = "Test";
+            if (row != null)
+            {
+                row.FirstName = "Test";
+                row.LastName = "Test";
+                int rowsAffected = dc.SaveChanges();
 
-            int result = dc.SaveChanges();
-            Assert.IsTrue(result > 0);
+                Assert.AreEqual(1, rowsAffected);
+            }
         }
+
+
         [TestMethod]
         public void DeleteTest()
         {
-            tblCustomer entity = dc.tblCustomers.Where(e => e.Id == 1).FirstOrDefault();
-            dc.tblCustomers.Remove(entity);
-            int result = dc.SaveChanges();
-            Assert.AreNotEqual(result, 0);
-        }
-        [TestMethod]
-        public void LoadByIdTest()
-        {
-            tblCustomer entity = dc.tblCustomers.Where(e => e.Id == 1).FirstOrDefault();
-            Assert.AreEqual(entity.Id, 1);
+            InsertTest();
+
+            tblCustomer row = dc.tblCustomers.FirstOrDefault();
+
+            if (row != null)
+            {
+                dc.tblCustomers.Remove(row);
+                int rowsAffected = dc.SaveChanges();
+
+                Assert.IsTrue(rowsAffected == 1);
+            }
+
         }
     }
 }

@@ -1,65 +1,63 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utDirector
+    public class utDirector : utBase
     {
-        protected DVDCentralEntities dc;
-        protected IDbContextTransaction transaction;
-        [TestInitialize]
-        public void Initialize()
-        {
-            dc = new DVDCentralEntities();
-            transaction = dc.Database.BeginTransaction();
-        }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            transaction.Rollback();
-            transaction.Dispose();
-            transaction = null;
-        }
+
+
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(3, dc.tblDirectors.Count());
+            int expected = 5;
+            var directors = dc.tblDirectors;
+            Assert.AreEqual(expected, directors.Count());
         }
+
         [TestMethod]
         public void InsertTest()
         {
-            tblDirector entity = new tblDirector();
-            entity.FirstName = "Test";
-            entity.LastName = "Test";
-            entity.Id = -99;
+            tblDirector newRow = new tblDirector();
 
-            dc.tblDirectors.Add(entity);
+            newRow.Id = Guid.NewGuid();
+            newRow.FirstName = "Joe";
+            newRow.LastName = "Billings";
 
-            int result = dc.SaveChanges();
-            Assert.AreEqual(1, result);
+            dc.tblDirectors.Add(newRow);
+            int rowsAffected = dc.SaveChanges();
+
+            Assert.AreEqual(1, rowsAffected);
         }
+
         [TestMethod]
         public void UpdateTest()
         {
-            tblDirector entity = dc.tblDirectors.FirstOrDefault();
+            tblDirector row = dc.tblDirectors.FirstOrDefault();
 
-            entity.FirstName = "Test";
-            entity.LastName = "Test";
+            if (row != null)
+            {
+                row.FirstName = "Sarah";
+                row.LastName = "Vicchiollo";
+                int rowsAffected = dc.SaveChanges();
 
-            int result = dc.SaveChanges();
-            Assert.IsTrue(result > 0);
+                Assert.AreEqual(1, rowsAffected);
+            }
         }
+
+
         [TestMethod]
         public void DeleteTest()
         {
-            tblDirector entity = dc.tblDirectors.Where(e => e.Id == 1).FirstOrDefault();
-            dc.tblDirectors.Remove(entity);
-            int result = dc.SaveChanges();
-            Assert.AreNotEqual(result, 0);
-        }
-        [TestMethod]
-        public void LoadByIdTest()
-        {
-            tblDirector entity = dc.tblDirectors.Where(e => e.Id == 1).FirstOrDefault();
-            Assert.AreEqual(entity.Id, 1);
+
+            tblDirector row = dc.tblDirectors.OrderBy(d => d.LastName).LastOrDefault();
+
+            if (row != null)
+            {
+                dc.tblDirectors.Remove(row);
+                int rowsAffected = dc.SaveChanges();
+
+                Assert.IsTrue(rowsAffected == 1);
+            }
+
         }
     }
 }

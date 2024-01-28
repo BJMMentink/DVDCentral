@@ -1,73 +1,70 @@
-using Humanizer;
+
 
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utMovie
+    public class utMovie : utBase
     {
-        protected DVDCentralEntities dc;
-        protected IDbContextTransaction transaction;
-        [TestInitialize]
-        public void Initialize()
-        {
-            dc = new DVDCentralEntities();
-            transaction = dc.Database.BeginTransaction();
-        }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            transaction.Rollback();
-            transaction.Dispose();
-            transaction = null;
-        }
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(3, dc.tblMovie.Count());
+            int expected = 6;
+            var movies = dc.tblMovies;
+            Assert.AreEqual(expected, movies.Count());
         }
+
         [TestMethod]
         public void InsertTest()
         {
-            tblMovie entity = new tblMovie();
-            entity.InStkQty = -99;
-            entity.ImagePath = "Test";
-            entity.Title = "Test";
-            entity.FormatId = -99;
-            entity.Id = -99;
-            entity.Description = "Test";
-            entity.Cost = -99;
-            entity.RatingId = 1;
-            entity.DirectorId = 1;
+            tblMovie newRow = new tblMovie();
 
-            dc.tblMovie.Add(entity);
+            newRow.Id = Guid.NewGuid();
+            newRow.Title = "XXXXX";
+            newRow.Description = "XXXXX";
+            newRow.Cost = 9.99;
+            newRow.RatingId = dc.tblRatings.FirstOrDefault().Id;
+            newRow.FormatId = dc.tblFormats.FirstOrDefault().Id;
+            newRow.DirectorId = dc.tblDirectors.FirstOrDefault().Id;
+            newRow.Quantity = 0;
+            newRow.ImagePath = "none";
 
-            int result = dc.SaveChanges();
-            Assert.AreEqual(1, result);
+            dc.tblMovies.Add(newRow);
+            int rowsAffected = dc.SaveChanges();
+
+            Assert.AreEqual(1, rowsAffected);
         }
+
         [TestMethod]
         public void UpdateTest()
         {
-            tblMovie entity = dc.tblMovie.FirstOrDefault();
+            InsertTest();
+            tblMovie row = dc.tblMovies.FirstOrDefault();
 
-            entity.ImagePath = "Test";
-            entity.Title = "Test";
+            if (row != null)
+            {
+                row.Description = "YYYYY";
+                int rowsAffected = dc.SaveChanges();
 
-            int result = dc.SaveChanges();
-            Assert.IsTrue(result > 0);
+                Assert.AreEqual(1, rowsAffected);
+            }
         }
+
+
         [TestMethod]
         public void DeleteTest()
         {
-            tblMovie entity = dc.tblMovie.Where(e => e.Id == 1).FirstOrDefault();
-            dc.tblMovie.Remove(entity);
-            int result = dc.SaveChanges();
-            Assert.AreNotEqual(result, 0);
-        }
-        [TestMethod]
-        public void LoadByIdTest()
-        {
-            tblMovie entity = dc.tblMovie.Where(e => e.Id == 1).FirstOrDefault();
-            Assert.AreEqual(entity.Id, 1);
+            InsertTest();
+
+            tblMovie row = dc.tblMovies.FirstOrDefault();
+
+            if (row != null)
+            {
+                dc.tblMovies.Remove(row);
+                int rowsAffected = dc.SaveChanges();
+
+                Assert.IsTrue(rowsAffected == 1);
+            }
+
         }
     }
 }

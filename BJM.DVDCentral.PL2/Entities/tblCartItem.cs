@@ -11,7 +11,7 @@ namespace BJM.DVDCentral.PL2.Entities
         public Guid Id { get; set; }
         public Guid CartId { get; set; }
         public Guid MovieId { get; set; }
-        public int Qty { get; set; }
+        public int Quantity { get; set; }
         public virtual tblCart Cart { get; set; } 
         public virtual tblMovie Movie { get; set; } 
     }

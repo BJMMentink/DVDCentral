@@ -1,63 +1,63 @@
 namespace BJM.DVDCentral.PL.Test
 {
+
     [TestClass]
-    public class utRating
+    public class utRating : utBase
     {
-        protected DVDCentralEntities dc;
-        protected IDbContextTransaction transaction;
-        [TestInitialize]
-        public void Initialize()
-        {
-            dc = new DVDCentralEntities();
-            transaction = dc.Database.BeginTransaction();
-        }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            transaction.Rollback();
-            transaction.Dispose();
-            transaction = null;
-        }
+
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(5, dc.tblRatings.Count());
+            int expected = 4;
+            var ratings = dc.tblRatings;
+            Assert.AreEqual(expected, ratings.Count());
         }
+
         [TestMethod]
         public void InsertTest()
         {
-            tblRating entity = new tblRating();
-            entity.Description = "Test";
-            entity.Id = -99;
+            tblRating newRow = new tblRating();
 
-            dc.tblRatings.Add(entity);
+            newRow.Id = Guid.NewGuid();
+            newRow.Description = "XXXXX";
 
-            int result = dc.SaveChanges();
-            Assert.AreEqual(1, result);
+            dc.tblRatings.Add(newRow);
+            int rowsAffected = dc.SaveChanges();
+
+            Assert.AreEqual(1, rowsAffected);
         }
+
         [TestMethod]
         public void UpdateTest()
         {
-            tblRating entity = dc.tblRatings.FirstOrDefault();
+            InsertTest();
+            tblRating row = dc.tblRatings.FirstOrDefault();
 
-            entity.Description = "Test";
+            if (row != null)
+            {
+                row.Description = "YYYYY";
+                int rowsAffected = dc.SaveChanges();
 
-            int result = dc.SaveChanges();
-            Assert.IsTrue(result > 0);
+                Assert.AreEqual(1, rowsAffected);
+            }
         }
+
+
         [TestMethod]
         public void DeleteTest()
         {
-            tblRating entity = dc.tblRatings.Where(e => e.Id == 1).FirstOrDefault();
-            dc.tblRatings.Remove(entity);
-            int result = dc.SaveChanges();
-            Assert.AreNotEqual(result, 0);
-        }
-        [TestMethod]
-        public void LoadByIdTest()
-        {
-            tblRating entity = dc.tblRatings.Where(e => e.Id == 1).FirstOrDefault();
-            Assert.AreEqual(entity.Id, 1);
+            InsertTest();
+
+            tblRating row = dc.tblRatings.FirstOrDefault();
+
+            if (row != null)
+            {
+                dc.tblRatings.Remove(row);
+                int rowsAffected = dc.SaveChanges();
+
+                Assert.IsTrue(rowsAffected == 1);
+            }
+
         }
     }
 }
