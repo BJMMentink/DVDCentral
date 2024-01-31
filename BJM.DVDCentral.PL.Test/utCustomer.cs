@@ -1,13 +1,13 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utCustomer : utBase
+    public class utCustomer : utBase<tblCustomer>
     {
         [TestMethod]
-        public void LoadTest()
+        public void mLoadTest()
         {
             int expected = 3;
-            var customers = dc.tblCustomers;
+            var customers = base.LoadTest();
             Assert.AreEqual(expected, customers.Count());
         }
 
@@ -17,13 +17,13 @@ namespace BJM.DVDCentral.PL.Test
             tblCustomer newRow = new tblCustomer();
 
             newRow.Id = Guid.NewGuid();
-            newRow.FirstName = "Test";
-            newRow.LastName = "Test";
-            newRow.Address = "Test";
-            newRow.City = "Test";
-            newRow.State = "Test";
-            newRow.ZIP = "Test";
-            newRow.Phone = "Test";
+            newRow.FirstName = "Joe";
+            newRow.LastName = "Billings";
+            newRow.Address = "XXXXXX";
+            newRow.City = "Greenville";
+            newRow.State = "WI";
+            newRow.ZIP = "54942";
+            newRow.Phone = "xxx-xxx-xxxx";
             newRow.UserId = dc.tblUsers.FirstOrDefault().Id;
 
             dc.tblCustomers.Add(newRow);
@@ -35,7 +35,6 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void UpdateTest()
         {
-            InsertTest();
             tblCustomer row = dc.tblCustomers.FirstOrDefault();
 
             if (row != null)
@@ -52,8 +51,6 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void DeleteTest()
         {
-            InsertTest();
-
             tblCustomer row = dc.tblCustomers.FirstOrDefault();
 
             if (row != null)

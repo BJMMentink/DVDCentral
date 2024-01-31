@@ -1,35 +1,31 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utGenre : utBase
+    public class utGenre : utBase<tblGenre>
     {
 
         [TestMethod]
         public void LoadTest()
         {
-            int expected = 3;
-            var genres = dc.tblGenres;
+            int expected = 10;
+            var genres = base.LoadTest();
             Assert.AreEqual(expected, genres.Count());
         }
 
         [TestMethod]
         public void InsertTest()
         {
-            tblGenre newRow = new tblGenre();
-
-            newRow.Id = Guid.NewGuid();
-            newRow.Description = "XXXX";
-
-            dc.tblGenres.Add(newRow);
-            int rowsAffected = dc.SaveChanges();
-
+            int rowsAffected = base.InsertTest(new tblGenre
+            {
+                Id = Guid.NewGuid(),
+                Description = "XXXXX"
+            });
             Assert.AreEqual(1, rowsAffected);
         }
 
         [TestMethod]
         public void UpdateTest()
         {
-            InsertTest();
             tblGenre row = dc.tblGenres.FirstOrDefault();
 
             if (row != null)
@@ -45,9 +41,7 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void DeleteTest()
         {
-            InsertTest();
-
-            tblGenre row = dc.tblGenres.FirstOrDefault();
+            tblGenre row = dc.tblGenres.FirstOrDefault(x => x.Description == "Other");
 
             if (row != null)
             {

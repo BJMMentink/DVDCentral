@@ -3,13 +3,13 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utMovie : utBase
+    public class utMovie : utBase<tblMovie>
     {
         [TestMethod]
         public void LoadTest()
         {
-            int expected = 6;
-            var movies = dc.tblMovies;
+            int expected = 7;
+            var movies = base.LoadTest();
             Assert.AreEqual(expected, movies.Count());
         }
 
@@ -22,14 +22,12 @@ namespace BJM.DVDCentral.PL.Test
             newRow.Title = "XXXXX";
             newRow.Description = "XXXXX";
             newRow.Cost = 9.99;
-            newRow.RatingId = dc.tblRatings.FirstOrDefault().Id;
-            newRow.FormatId = dc.tblFormats.FirstOrDefault().Id;
-            newRow.DirectorId = dc.tblDirectors.FirstOrDefault().Id;
+            newRow.RatingId = base.LoadTest().FirstOrDefault().RatingId;
+            newRow.FormatId = base.LoadTest().FirstOrDefault().FormatId;
+            newRow.DirectorId = base.LoadTest().FirstOrDefault().DirectorId;
             newRow.Quantity = 0;
             newRow.ImagePath = "none";
-
-            dc.tblMovies.Add(newRow);
-            int rowsAffected = dc.SaveChanges();
+            int rowsAffected = base.InsertTest(newRow);
 
             Assert.AreEqual(1, rowsAffected);
         }
@@ -37,33 +35,28 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void UpdateTest()
         {
-            InsertTest();
-            tblMovie row = dc.tblMovies.FirstOrDefault();
+            tblMovie row = base.LoadTest().FirstOrDefault();
 
             if (row != null)
             {
                 row.Description = "YYYYY";
-                int rowsAffected = dc.SaveChanges();
-
+                int rowsAffected = base.UpdateTest(row);
                 Assert.AreEqual(1, rowsAffected);
             }
         }
 
-
         [TestMethod]
         public void DeleteTest()
         {
-            InsertTest();
-
-            tblMovie row = dc.tblMovies.FirstOrDefault();
+            tblMovie row = base.LoadTest().FirstOrDefault(x => x.Description == "Other");
 
             if (row != null)
             {
-                dc.tblMovies.Remove(row);
-                int rowsAffected = dc.SaveChanges();
+                int rowsAffected = base.DeleteTest(row);
 
                 Assert.IsTrue(rowsAffected == 1);
             }
+
 
         }
     }

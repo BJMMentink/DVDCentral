@@ -1,34 +1,30 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utFormat : utBase
+    public class utFormat : utBase<tblFormat>
     {
         [TestMethod]
         public void LoadTest()
         {
-            int expected = 3;
-            var formats = dc.tblFormats;
+            int expected = 4;
+            var formats = base.LoadTest();
             Assert.AreEqual(expected, formats.Count());
         }
 
         [TestMethod]
         public void InsertTest()
         {
-            tblFormat newRow = new tblFormat();
-
-            newRow.Id = Guid.NewGuid();
-            newRow.Description = "XXX";
-
-            dc.tblFormats.Add(newRow);
-            int rowsAffected = dc.SaveChanges();
-
+            int rowsAffected = base.InsertTest(new tblFormat
+            {
+                Id = Guid.NewGuid(),
+                Description = "XXXXX"
+            });
             Assert.AreEqual(1, rowsAffected);
         }
 
         [TestMethod]
         public void UpdateTest()
         {
-            InsertTest();
             tblFormat row = dc.tblFormats.FirstOrDefault();
 
             if (row != null)
@@ -44,9 +40,8 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void DeleteTest()
         {
-            InsertTest();
 
-            tblFormat row = dc.tblFormats.FirstOrDefault();
+            tblFormat row = dc.tblFormats.FirstOrDefault(x => x.Description == "Other");
 
             if (row != null)
             {

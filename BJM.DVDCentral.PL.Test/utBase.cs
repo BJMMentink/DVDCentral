@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utBase
+    public class utBase<T> where T : class
     {
         protected DVDCentralEntities dc;
         protected IDbContextTransaction transaction;
@@ -39,6 +40,29 @@ namespace BJM.DVDCentral.PL.Test
             transaction.Rollback();
             transaction.Dispose();
             transaction = null;
+        }
+
+        public List<T> LoadTest()
+        {
+            return dc.Set<T>().ToList();
+        }
+        public int InsertTest(T row)
+        {
+            dc.Set<T>().Add(row);
+            return dc.SaveChanges();
+        }
+
+        public int UpdateTest(T row)
+        {
+
+            dc.Entry(row).State = EntityState.Modified;
+            return dc.SaveChanges();
+        }
+
+        public int DeleteTest(T row)
+        {
+            dc.Set<T>().Remove(row);
+            return dc.SaveChanges();
         }
     }
 }

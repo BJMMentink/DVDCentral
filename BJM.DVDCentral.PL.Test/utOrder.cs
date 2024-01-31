@@ -1,14 +1,14 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utOrder : utBase
+    public class utOrder : utBase<tblOrder>
     {
 
         [TestMethod]
         public void LoadTest()
         {
             int expected = 3;
-            var orders = dc.tblOrders;
+            var orders = base.LoadTest();
             Assert.AreEqual(expected, orders.Count());
         }
 
@@ -32,7 +32,6 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void UpdateTest()
         {
-            InsertTest();
             tblOrder row = dc.tblOrders.FirstOrDefault();
 
             if (row != null)
@@ -48,8 +47,6 @@ namespace BJM.DVDCentral.PL.Test
         [TestMethod]
         public void DeleteTest()
         {
-            InsertTest();
-
             tblOrder row = dc.tblOrders.FirstOrDefault();
 
             if (row != null)

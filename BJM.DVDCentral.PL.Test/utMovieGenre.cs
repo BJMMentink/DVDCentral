@@ -1,7 +1,7 @@
 namespace BJM.DVDCentral.PL.Test
 {
     [TestClass]
-    public class utMovieGenre : utBase
+    public class utMovieGenre : utBase<tblMovieGenre>
     {
 
 
@@ -9,7 +9,7 @@ namespace BJM.DVDCentral.PL.Test
         public void LoadTest()
         {
             int expected = 13;
-            var movieGenres = dc.tblMovieGenres;
+            var movieGenres = base.LoadTest();
             Assert.AreEqual(expected, movieGenres.Count());
         }
 
@@ -26,12 +26,13 @@ namespace BJM.DVDCentral.PL.Test
             int rowsAffected = dc.SaveChanges();
 
             Assert.AreEqual(1, rowsAffected);
+
+
         }
 
         [TestMethod]
         public void UpdateTest()
         {
-            InsertTest();
             tblMovieGenre row = dc.tblMovieGenres.FirstOrDefault();
 
             if (row != null)
@@ -63,3 +64,4 @@ namespace BJM.DVDCentral.PL.Test
         }
     }
 }
+
