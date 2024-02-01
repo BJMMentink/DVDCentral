@@ -1,10 +1,4 @@
-﻿using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
     public class GenreManager
     {
@@ -18,7 +12,7 @@ namespace BJM.DVDCentral.BL
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
                     tblGenre entity = new tblGenre();
-                    entity.Id = dc.tblGenres.Any() ? dc.tblGenres.Max(s => s.Id) + 1 : 1;
+                    entity.Id = Guid.NewGuid();
                     entity.Description = genre.Description;
                     genre.Id = entity.Id;
                     dc.tblGenres.Add(entity);
@@ -60,7 +54,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(Guid id, bool rollback = false)
         {
             try
             {
@@ -88,7 +82,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static Genre LoadById(int id)
+        public static Genre LoadById(Guid id)
         {
             try
             {

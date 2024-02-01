@@ -1,13 +1,11 @@
-﻿using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿
+
 
 namespace BJM.DVDCentral.BL
 {
-    public class CustomerManager
+    public class CustomerManager : GenericManager<tblCustomer>
     {
+        public CustomerManager(DbContextOptions<DVDCentralEntities> options) : base(options) { }
         public static int Insert(Customer customer, bool rollback = false)
         {
             try
@@ -18,7 +16,7 @@ namespace BJM.DVDCentral.BL
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
                     tblCustomer entity = new tblCustomer();
-                    entity.Id = dc.tblCustomers.Any() ? dc.tblCustomers.Max(s => s.Id) + 1 : 1;
+                    entity.Id = Guid.NewGuid();
                     entity.FirstName = customer.FirstName;
                     entity.LastName = customer.LastName;
                     entity.Address = customer.Address;
@@ -75,7 +73,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(Guid id, bool rollback = false)
         {
             try
             {
@@ -103,7 +101,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static Customer LoadById(int id)
+        public static Customer LoadById(Guid id)
         {
             try
             {

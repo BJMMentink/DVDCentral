@@ -10,7 +10,7 @@ namespace BJM.DVDCentral.BL.Models
 {
     public class Movie
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Movie Title")]
         public string Title { get; set; } = string.Empty;
@@ -24,13 +24,13 @@ namespace BJM.DVDCentral.BL.Models
         public float Cost { get; set; }
 
         [DisplayName("Rating ID")]
-        public int RatingId { get; set; }
+        public Guid RatingId { get; set; }
 
         [DisplayName("Format ID")]
-        public int FormatId { get; set; }
+        public Guid FormatId { get; set; }
 
         [DisplayName("Director ID")]
-        public int DirectorId { get; set; }
+        public Guid DirectorId { get; set; }
 
         [DisplayName("Quantity")]
         public int InStkQty { get; set; }

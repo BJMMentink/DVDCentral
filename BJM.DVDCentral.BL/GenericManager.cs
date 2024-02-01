@@ -1,16 +1,7 @@
-﻿using BJM.DVDCentral.PL2;
-using BJM.DVDCentral.PL2.Data;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
-    public abstract class GenericManager<T> where T : class
+
+    public abstract class GenericManager<T> where T : class, IEntity
     {
         protected DbContextOptions<DVDCentralEntities> options;
 
@@ -19,28 +10,53 @@ namespace BJM.DVDCentral.BL
             this.options = options;
         }
 
-        public List<T> Load() 
+        
+        public List<T> Load()
         {
-            return null;
+            try
+            {
+                return new DVDCentralEntities(options)
+                    .Set<T>()
+                    .ToList<T>();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
-        public List<T> LoadById(Guid id)
+        public T LoadById(Guid id)
         {
-            return null;
+            try
+            {
+                return new DVDCentralEntities(options).Set<T>().Where(t => t.Id == id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
+
         public int Insert(T entity, bool rollback = false)
         {
             return 0;
         }
+
         public int Update(T entity, bool rollback = false)
         {
             return 0;
         }
-        public int Delete(bool rollback = false)
+
+        public int Delete(Guid id, bool rollback = false)
         {
             return 0;
         }
 
     }
+
+
     
+
 }

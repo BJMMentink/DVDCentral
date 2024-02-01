@@ -1,10 +1,4 @@
-﻿using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
     public class OrderItemManager
     {
@@ -18,7 +12,7 @@ namespace BJM.DVDCentral.BL
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
                     tblOrderItem entity = new tblOrderItem();
-                    entity.Id = dc.tblOrderItems.Any() ? dc.tblOrderItems.Max(s => s.Id) + 1 : 1;
+                    entity.Id = Guid.NewGuid();
                     entity.OrderId = orderItem.OrderId;
                     entity.MovieId = orderItem.MovieId;
                     entity.Quantity = orderItem.Quantity;
@@ -68,7 +62,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(Guid id, bool rollback = false)
         {
             try
             {
@@ -96,7 +90,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static OrderItem LoadById(int id)
+        public static OrderItem LoadById(Guid id)
         {
             try
             {
@@ -126,7 +120,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static List<OrderItem> LoadByOrderId(int orderid)
+        public static List<OrderItem> LoadByOrderId(Guid orderid)
         {
             try
             {
@@ -155,7 +149,7 @@ namespace BJM.DVDCentral.BL
             }
 
         }
-        public static List<OrderItem> Load(int? CustomerId = null)
+        public static List<OrderItem> Load(Guid? CustomerId = null)
         {
             try
             {

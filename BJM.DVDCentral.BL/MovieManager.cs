@@ -1,11 +1,4 @@
-﻿using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
-using static Azure.Core.HttpHeader;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
     public class MovieManager
     {
@@ -76,7 +69,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(Guid id, bool rollback = false)
         {
             try
             {
@@ -104,7 +97,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static Movie LoadById(int id)
+        public static Movie LoadById(Guid id)
         {
             try
             {
@@ -166,7 +159,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static List<Movie> Load(int? movieId = null)
+        public static List<Movie> Load(Guid? movieId = null)
         {
             try
             {

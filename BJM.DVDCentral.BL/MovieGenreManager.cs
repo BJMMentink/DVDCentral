@@ -1,15 +1,11 @@
 ﻿/**/
-using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
+
 
 namespace BJM.DVDCentral.BL
 {
     public class MovieGenreManager
     {
-        public static void Insert(int MovieId, int GenreId, bool rollback = false)
+        public static void Insert(Guid MovieId, Guid GenreId, bool rollback = false)
         {
             try
             {
@@ -19,7 +15,7 @@ namespace BJM.DVDCentral.BL
                     tblMovieGenre MovieGenre = new tblMovieGenre();
                     MovieGenre.GenreId = GenreId;
                     MovieGenre.MovieId = MovieId;
-                    MovieGenre.Id = dc.tblMovieGenres.Any() ? dc.tblMovieGenres.Max(sa => sa.Id) + 1 : 1;
+                    MovieGenre.Id = Guid.NewGuid();
 
                     dc.tblMovieGenres.Add(MovieGenre);
                     dc.SaveChanges();
@@ -60,7 +56,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int MovieId, int GenreId, bool rollback = false)
+        public static int Delete(Guid MovieId, Guid GenreId, bool rollback = false)
         {
             try
             {
@@ -88,7 +84,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static List<Genre> LoadById(int movieId)
+        public static List<Genre> LoadById(Guid movieId)
         {
             try
             {
@@ -111,7 +107,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static List<string> LoadByMovieId(int movieId)
+        public static List<string> LoadByMovieId(Guid movieId)
         {
             try
             {

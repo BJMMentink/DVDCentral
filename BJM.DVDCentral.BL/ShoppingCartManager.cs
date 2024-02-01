@@ -1,16 +1,6 @@
-﻿using BJM.DVDCentral.BL.Models;
-using BJM.DVDCentral.PL;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
-   public static class ShoppingCartManager
+    public static class ShoppingCartManager
     {
         public static void Add(ShoppingCart cart, Movie movie)
         {
@@ -26,7 +16,7 @@ namespace BJM.DVDCentral.BL
                 cart.Items.Remove(movie);
             }
         }
-        public static void Checkout(ShoppingCart cart, int UserId, int CustId)
+        public static void Checkout(ShoppingCart cart, Guid UserId, Guid CustId)
         {
             if (cart == null || cart.Items.Count == 0)
             {
@@ -48,7 +38,7 @@ namespace BJM.DVDCentral.BL
                     OrderItem orderItem = new OrderItem
                     {
                         MovieId = item.Id,
-                        OrderId = dc.tblOrders.Any() ? dc.tblOrders.Max(s => s.Id) + 1 : 1,
+                        OrderId = Guid.NewGuid(),
                         Quantity = 1,
                         Cost = item.Cost,
 

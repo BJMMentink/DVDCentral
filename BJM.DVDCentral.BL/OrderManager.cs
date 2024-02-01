@@ -1,10 +1,4 @@
-﻿using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
     public class OrderManager
     {
@@ -18,7 +12,7 @@ namespace BJM.DVDCentral.BL
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
                     tblOrder entity = new tblOrder();
-                    entity.Id = dc.tblOrders.Any() ? dc.tblOrders.Max(s => s.Id) + 1 : 1;
+                    entity.Id = Guid.NewGuid();
                     entity.ShipDate = order.ShipDate;
                     entity.CustomerId = order.CustomerId;
                     entity.UserId = order.UserId;
@@ -68,7 +62,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(Guid id, bool rollback = false)
         {
             try
             {
@@ -96,7 +90,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static Order LoadById(int id)
+        public static Order LoadById(Guid id)
         {
             try
             {

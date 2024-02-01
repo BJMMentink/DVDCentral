@@ -8,7 +8,7 @@ namespace BJM.DVDCentral.BL.Models
 {
     public class Customer
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
@@ -16,7 +16,7 @@ namespace BJM.DVDCentral.BL.Models
         public string State { get; set; } = string.Empty;
         public string ZIP { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public string FullName
         {
             get

@@ -9,9 +9,9 @@ namespace BJM.DVDCentral.BL.Models
 {
     public class Order
     {
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
-        public int UserId { get; set; }
+        public Guid Id { get; set; }
+        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
         [Display(Name = "Shipped Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]

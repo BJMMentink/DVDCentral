@@ -9,7 +9,7 @@ namespace BJM.DVDCentral.BL.Models
 {
     public class User
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [DisplayName("User ID")]
         public string UserId { get; set; }
         [DisplayName("First Name")]

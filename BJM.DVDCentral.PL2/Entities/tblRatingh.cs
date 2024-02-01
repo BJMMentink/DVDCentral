@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BJM.DVDCentral.PL2.Entities;
 
-public class tblRating
+public class tblRating : IEntity
 {
     public Guid Id { get; set; }
 

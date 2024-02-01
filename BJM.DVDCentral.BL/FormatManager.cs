@@ -1,10 +1,4 @@
-﻿using System.Xml.Linq;
-using BJM.DVDCentral.PL;
-using BJM.DVDCentral.BL.Models;
-using System.Xml;
-using Microsoft.EntityFrameworkCore.Storage;
-
-namespace BJM.DVDCentral.BL
+﻿namespace BJM.DVDCentral.BL
 {
     public class FormatManager
     {
@@ -18,7 +12,7 @@ namespace BJM.DVDCentral.BL
                     IDbContextTransaction transaction = null;
                     if (rollback) transaction = dc.Database.BeginTransaction();
                     tblFormat entity = new tblFormat();
-                    entity.Id = dc.tblFormats.Any() ? dc.tblFormats.Max(s => s.Id) + 1 : 1;
+                    entity.Id = Guid.NewGuid();
                     entity.Description = format.Description;
                     format.Id = entity.Id;
                     dc.tblFormats.Add(entity);
@@ -60,7 +54,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static int Delete(int id, bool rollback = false)
+        public static int Delete(Guid id, bool rollback = false)
         {
             try
             {
@@ -88,7 +82,7 @@ namespace BJM.DVDCentral.BL
                 throw;
             }
         }
-        public static Format LoadById(int id)
+        public static Format LoadById(Guid id)
         {
             try
             {
