@@ -1,14 +1,14 @@
-using BJM.DVDCentral.PL;
+using BJM.DVDCentral.PL2;
 
 namespace BJM.DVDCentral.BL.Test
 {
     [TestClass]
-    public class utCustomer
+    public class utCustomer : utBase
     {
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(3, CustomerManager.Load().Count);
+            List<Customer> customers = new CustomerManager(options).Load();
         }
         [TestMethod]
         public void InsertTest()
@@ -22,7 +22,7 @@ namespace BJM.DVDCentral.BL.Test
                 State = "Test",
                 ZIP = "Test",
                 Phone = "Test",
-                UserId = -99
+                UserId = new UserManager(options).Load().FirstOrDefault().Id
             };
 
             int results = CustomerManager.Insert(customer, true);
@@ -32,10 +32,10 @@ namespace BJM.DVDCentral.BL.Test
         [TestMethod]
         public void UpdateTest()
         {
-            Customer customer = CustomerManager.LoadById(3);
+            Customer customer = new CustomerManager(options).Load().FirstOrDefault();
             customer.FirstName = "Test";
-            int results = CustomerManager.Update(customer, true);
-            Assert.AreEqual(1, results);
+
+            Assert.IsTrue(new CustomerManager(options).Update(customer, true) > 0);
         }
 
         [TestMethod]

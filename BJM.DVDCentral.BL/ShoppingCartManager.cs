@@ -1,63 +1,51 @@
-﻿namespace BJM.DVDCentral.BL
+﻿
+using BJM.DVDCentral.BL;
+using Microsoft.Extensions.Options;
+
+namespace BJM.DVDCentral.BL
 {
-    public static class ShoppingCartManager
+    public class ShoppingCartManager : GenericManager<tblCart>
     {
-        public static void Add(ShoppingCart cart, Movie movie)
-        {
-            if (cart != null)
-            {
-                cart.Items.Add(movie);
-            }
-        }
-        public static void Remove(ShoppingCart cart, Movie movie)
-        {
-            if (cart != null)
-            {
-                cart.Items.Remove(movie);
-            }
-        }
-        public static void Checkout(ShoppingCart cart, Guid UserId, Guid CustId)
-        {
-            if (cart == null || cart.Items.Count == 0)
-            {
-                return;
-            }
+        public ShoppingCartManager(DbContextOptions<DVDCentralEntities> options) : base(options) { }
 
-            using (DVDCentralEntities dc = new DVDCentralEntities())
+        public int Checkout(ShoppingCart cart, bool rollback = false)
+        {
+            Order order = new Order();
+            order.CustomerId = cart.CustomerId;
+            order.OrderDate = DateTime.Now;
+            order.UserId = cart.UserId;
+            order.ShipDate = DateTime.Now.AddDays(3);
+
+            foreach (var item in cart.Items)
             {
-                Order order = new Order
+                order.OrderItems.Add(new OrderItem
                 {
-                    CustomerId = CustId,
-                    UserId = UserId,
-                    OrderDate = DateTime.Now,
-                    ShipDate = DateTime.Now.AddDays(3),
-                    
-                };
-                foreach (var item in cart.Items)
-                {
-                    OrderItem orderItem = new OrderItem
-                    {
-                        MovieId = item.Id,
-                        OrderId = Guid.NewGuid(),
-                        Quantity = 1,
-                        Cost = item.Cost,
-
-                    };
-                    order.Items.Add(orderItem);
-                    tblMovie entity = dc.tblMovie.FirstOrDefault(s => s.Id == item.Id);
-                    if (entity != null && entity.InStkQty > 0)
-                    {
-                        entity.InStkQty--;
-                    }
-                }
-                dc.SaveChanges();
-
-                OrderManager.Insert(order);
+                    Cost = item.Cost,
+                    MovieId = item.Id,
+                    Quantity = item.Quantity
+                });
             }
+            return new OrderManager(options).Insert(order, rollback);
+        }
+
+        public void Add(ShoppingCart cart, Movie movie)
+        {
+            if (!cart.Items.Any(n => n.Id == movie.Id))
+                cart.Add(movie);
+            else
+                cart.Items.Where(n => n.Id == movie.Id).FirstOrDefault().Quantity++;
+        }
+
+        public void AssignToCustomer()
+        {
 
         }
 
+
+        public void Remove(ShoppingCart cart, Movie movie)
+        {
+            cart.Remove(movie);
+        }
 
     }
-    
 }

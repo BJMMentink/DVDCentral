@@ -41,22 +41,82 @@
 
         public int Insert(T entity, bool rollback = false)
         {
-            return 0;
+            int results = 0;
+            using (DVDCentralEntities dc = new DVDCentralEntities(options))
+            {
+                IDbContextTransaction dbTransaction = null;
+                if (rollback) dbTransaction = dc.Database.BeginTransaction();
+
+                entity.Id = Guid.NewGuid();
+
+                dc.Set<T>().Add(entity);
+                results = dc.SaveChanges();
+
+                if (rollback) dbTransaction.Rollback();
+            }
+                return results;
         }
 
         public int Update(T entity, bool rollback = false)
         {
-            return 0;
-        }
+            try
+            {
+                int results = 0;
+                using (DVDCentralEntities dc = new DVDCentralEntities(options))
+                {
+                    IDbContextTransaction dbTransaction = null;
+                    if (rollback) dbTransaction = dc.Database.BeginTransaction();
 
+                    dc.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                    results = dc.SaveChanges();
+
+                    if (rollback) dbTransaction.Rollback();
+
+                }
+
+                return results;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public int Delete(Guid id, bool rollback = false)
         {
-            return 0;
+            try
+            {
+                int results = 0;
+                using (DVDCentralEntities dc = new DVDCentralEntities(options))
+                {
+                    IDbContextTransaction dbTransaction = null;
+                    if (rollback) dbTransaction = dc.Database.BeginTransaction();
+
+                    T row = dc.Set<T>().FirstOrDefault(t => t.Id == id);
+
+                    if (row != null)
+                    {
+                        dc.Set<T>().Remove(row);
+                        results = dc.SaveChanges();
+                        if (rollback) dbTransaction.Rollback();
+                    }
+                    else
+                    {
+                        throw new Exception("Row does not exist.");
+                    }
+
+                }
+
+                return results;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
     }
-
-
-    
 
 }

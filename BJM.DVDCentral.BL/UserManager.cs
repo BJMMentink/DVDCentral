@@ -3,7 +3,7 @@ using System.Text;
 
 namespace BJM.DVDCentral.BL
 {
-    public class LoginFailureException : Exception
+    public class LoginFailureException : Exception 
     {
         public LoginFailureException() : base("Could not login with those credentials. IP Address saved.")
         {
@@ -176,7 +176,7 @@ namespace BJM.DVDCentral.BL
             }
         }
 
-        public static int Delete(int userId, bool rollback = false)
+        public static int Delete(Guid userId, bool rollback = false)
         {
             try
             {
@@ -225,7 +225,7 @@ namespace BJM.DVDCentral.BL
             }
         }
 
-        public static User LoadById(int userId)
+        public static User LoadById(Guid userId)
         {
             try
             {
