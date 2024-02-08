@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using BJM.DVDCentral.BL;
 using BJM.DVDCentral.BL.Models;
+using Microsoft.EntityFrameworkCore;
+using BJM.DVDCentral.PL2.Data;
 
 namespace BJM.DVDCentral.API.Controllers
 {
@@ -9,25 +11,34 @@ namespace BJM.DVDCentral.API.Controllers
     [ApiController]
     public class GenresController : ControllerBase
     {
+        private readonly DbContextOptions<DVDCentralEntities> options;
+        private readonly ILogger<GenresController> logger;
+
+        public GenresController(ILogger<GenresController> logger, DbContextOptions<DVDCentralEntities> options)
+        {
+            this.options = options;
+            this.logger = logger;
+        }
+        
         
         [HttpGet]
         public IEnumerable<Genre> GetGenres()
         {
-            return GenreManager.Load();
+            return new GenreManager(options).Load();
         }
 
         
         [HttpGet("{id}")]
-        public Genre Get(int id)
+        public Genre Get(Guid id)
         {
-            return GenreManager.LoadById(id);
+            return new GenreManager(options).LoadById(id);
         }
         [HttpPost]
         public IActionResult Post([FromBody] Genre genre)
         {
             try
             {
-                int results = GenreManager.Insert(genre);
+                int results = new GenreManager(options).Insert(genre);
                 return Ok(results);
             }
             catch (Exception ex)
@@ -40,7 +51,7 @@ namespace BJM.DVDCentral.API.Controllers
         {
             try
             {
-                int results = GenreManager.Update(genre);
+                int results = new GenreManager(options).Update(genre);
                 return Ok(results);
             }
             catch (Exception ex)
@@ -49,11 +60,11 @@ namespace BJM.DVDCentral.API.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         {
             try
             {
-                int results = GenreManager.Delete(id);
+                int results = new GenreManager(options).Delete(id);
                 return Ok(results);
             }
             catch (Exception ex)

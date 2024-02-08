@@ -1,7 +1,4 @@
-﻿
-using BJM.DVDCentral.BL.Models;
-using BJM.DVDCentral.BL;
-using Microsoft.Extensions.Options;
+﻿using System.Linq;
 
 namespace BJM.DVDCentral.BL
 {
@@ -20,15 +17,15 @@ namespace BJM.DVDCentral.BL
                 using (DVDCentralEntities dc = new DVDCentralEntities(options))
                 {
                     var results = (from o in dc.tblOrders
-                                   join c in dc.tblCustomers on o.CustomerId equals c.Id
+                                   //join c in dc.tblCustomers on o.CustomerId equals c.Id
                                    join u in dc.tblUsers on o.UserId equals u.Id
                                    where o.CustomerId == customerId || customerId == null
                                    select new
                                    {
                                        Id = o.Id,
                                        CustomerId = o.CustomerId,
-                                       CustomerFisrtName = c.FirstName,
-                                       CustomerLastName = c.LastName,
+                                       CustomerFisrtName = o.Customer.FirstName,
+                                       CustomerLastName = o.Customer.LastName,
                                        UserName = u.UserName,
                                        OrderDate = o.OrderDate,
                                        UserId = o.UserId,
@@ -72,15 +69,15 @@ namespace BJM.DVDCentral.BL
                 using (DVDCentralEntities dc = new DVDCentralEntities(options))
                 {
                     var row = (from o in dc.tblOrders
-                               join c in dc.tblCustomers on o.CustomerId equals c.Id
+                               //join c in dc.tblCustomers on o.CustomerId equals c.Id
                                join u in dc.tblUsers on o.UserId equals u.Id
                                where o.Id == id
                                select new
                                {
                                    Id = o.Id,
                                    CustomerId = o.CustomerId,
-                                   CustomerFisrtName = c.FirstName,
-                                   CustomerLastName = c.LastName,
+                                   CustomerFisrtName = o.Customer.FirstName,
+                                   CustomerLastName = o.Customer.LastName,
                                    UserName = u.UserName,
                                    OrderDate = o.OrderDate,
                                    UserId = o.UserId,
