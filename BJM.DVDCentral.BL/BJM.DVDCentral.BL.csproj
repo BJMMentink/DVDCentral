@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\BJM.DVDCentral.BL.Models\BJM.DVDCentral.BL.Models.csproj" />
     <ProjectReference Include="..\BJM.DVDCentral.PL2\BJM.DVDCentral.PL2.csproj" />
   </ItemGroup>

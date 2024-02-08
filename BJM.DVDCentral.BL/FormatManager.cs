@@ -1,138 +1,104 @@
 ﻿namespace BJM.DVDCentral.BL
 {
-    public class FormatManager
+    public class FormatManager : GenericManager<tblFormat>
     {
-        public static int Insert(Format format, bool rollback = false)
+        public FormatManager(DbContextOptions<DVDCentralEntities> options) : base(options) { }
+
+        public int Insert(Format format, bool rollback = false)
         {
             try
             {
-                int results = 0;
-                using (DVDCentralEntities dc = new DVDCentralEntities())
-                {
-                    IDbContextTransaction transaction = null;
-                    if (rollback) transaction = dc.Database.BeginTransaction();
-                    tblFormat entity = new tblFormat();
-                    entity.Id = Guid.NewGuid();
-                    entity.Description = format.Description;
-                    format.Id = entity.Id;
-                    dc.tblFormats.Add(entity);
-                    results = dc.SaveChanges();
-                    if (rollback) transaction.Rollback();
-                }
-                return results;
+                tblFormat row = new tblFormat { Description = format.Description };
+                format.Id = row.Id;
+                return base.Insert(row, rollback);
+
             }
             catch (Exception)
             {
+
                 throw;
             }
         }
-        public static int Update(Format format, bool rollback = false)
+
+        public List<Format> Load()
         {
+
             try
             {
-                int results = 0;
-                using (DVDCentralEntities dc = new DVDCentralEntities())
-                {
-                    IDbContextTransaction transaction = null;
-                    if (rollback) transaction = dc.Database.BeginTransaction();
-                    tblFormat entity = dc.tblFormats.FirstOrDefault(s => s.Id == format.Id);
-                    if (entity != null)
-                    {
-                        entity.Description = format.Description;
-                        results = dc.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception("Row does not exist");
-                    }
-                    if (rollback) transaction.Rollback();
-                }
-                return results;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public static int Delete(Guid id, bool rollback = false)
-        {
-            try
-            {
-                int results = 0;
-                using (DVDCentralEntities dc = new DVDCentralEntities())
-                {
-                    IDbContextTransaction transaction = null;
-                    if (rollback) transaction = dc.Database.BeginTransaction();
-                    tblFormat entity = dc.tblFormats.FirstOrDefault(s => s.Id == id);
-                    if (entity != null)
-                    {
-                        dc.tblFormats.Remove(entity);
-                        results = dc.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception("Row does not exist");
-                    }
-                    if (rollback) transaction.Rollback();
-                }
-                return results;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public static Format LoadById(Guid id)
-        {
-            try
-            {
-                using (DVDCentralEntities dc = new DVDCentralEntities())
-                {
-                    tblFormat entity = dc.tblFormats.FirstOrDefault(s => s.Id == id);
-                    if (entity != null)
-                    {
-                        return new Format
+                List<Format> rows = new List<Format>();
+                base.Load()
+                    .ForEach(d => rows.Add(
+                        new Format
                         {
-                            Id = entity.Id,
-                            Description = entity.Description
-                          
-                        };
-                    }
-                    else
+                            Id = d.Id,
+                            Description = d.Description,
+                        }));
+
+                return rows;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public Format LoadById(Guid id)
+        {
+            try
+            {
+                tblFormat row = base.LoadById(id);
+
+                if (row != null)
+                {
+                    Format format = new Format
                     {
-                        throw new Exception();
-                    }
+                        Id = row.Id,
+                        Description = row.Description,
+                    };
+
+                    return format;
                 }
+                else
+                {
+                    throw new Exception();
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int Update(Format format, bool rollback = false)
+        {
+            try
+            {
+                int results = base.Update(new tblFormat
+                {
+                    Id = format.Id,
+                    Description = format.Description
+                }, rollback);
+                return results;
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public static List<Format> Load()
+
+        public int Delete(Guid id, bool rollback = false)
         {
             try
             {
-                List<Format> list = new List<Format>();
-                using (DVDCentralEntities dc = new DVDCentralEntities())
-                {
-                    (from s in dc.tblFormats
-                     select new
-                     {
-                         s.Id,
-                         s.Description
-                     })
-                     .ToList()
-                     .ForEach(format => list.Add(new Format
-                     {
-                         Id = format.Id,
-                         Description = format.Description
-                     }));
-                }
-                return list;
+                return base.Delete(id, rollback);
             }
             catch (Exception)
             {
+
                 throw;
             }
         }

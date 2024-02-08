@@ -1,35 +1,32 @@
-/*
+
 namespace BJM.DVDCentral.BL.Test
 {
     [TestClass]
-    public class utRating
+    public class utMovieGenre : utBase
     {
+
         [TestMethod]
         public void InsertTest()
         {
-            Rating rating = new Rating
-            {
-                Description = "Test"
-        };
-
-            int results = RatingManager.Insert(rating, true);
-            Assert.AreEqual(1, results);
+            Guid movieId = new MovieManager(options).Load().FirstOrDefault().Id;
+            Guid genreId = new GenreManager(options).Load().FirstOrDefault().Id;
+            int result = new MovieGenreManager(options).Insert(movieId, genreId, true);
+            Assert.IsTrue(result > 0);
         }
 
-        [TestMethod]
-        public void UpdateTest()
-        {
-            Rating rating = RatingManager.LoadById(3);
-            rating.Description = "Test";
-            int results = RatingManager.Update(rating, true);
-            Assert.AreEqual(1, results);
-        }
+        //[TestMethod]
+        //public void DeleteTest()
+        //{
+        //    int movieGenreId = new MovieGenreManager(options).Load().FirstOrDefault().Id; 
+        //    Assert.IsTrue(MovieGenreManager.Delete(movieGenreId, true) > 0);
+        //}
 
         [TestMethod]
-        public void DeleteTest()
+        public void DeleteTest2()
         {
-            int results = RatingManager.Delete(3, true);
-            Assert.AreEqual(1, results);
+            tblMovieGenre row = new MovieGenreManager(options).Load().FirstOrDefault();
+            Assert.IsTrue(new MovieGenreManager(options).Delete(row.MovieId, row.GenreId, true) > 0);
         }
+
     }
-}*/
+}

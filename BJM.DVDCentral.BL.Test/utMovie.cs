@@ -1,51 +1,61 @@
-
-
-using System.Xml.Linq;
-
 namespace BJM.DVDCentral.BL.Test
 {
     [TestClass]
-    public class utMovie
+    public class utMovie : utBase
     {
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(3, MovieManager.Load().Count);
+            List<Movie> movies = new MovieManager(options).Load();
+            int expected = 7;
+
+            Assert.AreEqual(expected, movies.Count);
         }
+
         [TestMethod]
         public void InsertTest()
         {
             Movie movie = new Movie
             {
-                InStkQty = -99,
-                ImagePath = "Test",
-                Title = "Test",
-                FormatId = -99,
-                Id = -99,
-                Description = "Test",
-                Cost = -99,
-                RatingId = 1,
-                DirectorId = 1
-        };
+                Id = Guid.NewGuid(),
+                Title = "TEST",
+                Description = "TEST",
+                Cost = 9.99,
+                RatingId = new RatingManager(options).Load().FirstOrDefault().Id,
+                FormatId = new FormatManager(options).Load().FirstOrDefault().Id,
+                DirectorId = new DirectorManager(options).Load().FirstOrDefault().Id,
+                Quantity = 0,
+                ImagePath = "TEST.JPG"
+            };
 
-            int results = MovieManager.Insert(movie, true);
-            Assert.AreEqual(1, results);
+            int result = new MovieManager(options).Insert(movie, true);
+            Assert.IsTrue(result > 0);
         }
 
         [TestMethod]
         public void UpdateTest()
         {
-            Movie movie = MovieManager.LoadById(3);
-            movie.ImagePath = "Test";
-            int results = MovieManager.Update(movie, true);
-            Assert.AreEqual(1, results);
+            Movie movie = new MovieManager(options).Load().FirstOrDefault();
+            movie.Title = "TEST TITLE";
+
+            Assert.IsTrue(new MovieManager(options).Update(movie, true) > 0);
         }
 
         [TestMethod]
         public void DeleteTest()
         {
-            int results = MovieManager.Delete(3, true);
-            Assert.AreEqual(1, results);
+            Movie movie = new MovieManager(options).Load().FirstOrDefault();
+
+            Assert.IsTrue(new MovieManager(options).Delete(movie.Id, true) > 0);
         }
+
+        [TestMethod]
+        public void LoadByIdTest()
+        {
+            Movie movie = new MovieManager(options).Load().FirstOrDefault();
+            Assert.AreEqual(new MovieManager(options).LoadById(movie.Id).Id, movie.Id);
+        }
+
+
     }
 }

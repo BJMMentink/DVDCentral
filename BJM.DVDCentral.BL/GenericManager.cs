@@ -1,4 +1,6 @@
-﻿namespace BJM.DVDCentral.BL
+﻿using System.Linq;
+
+namespace BJM.DVDCentral.BL
 {
 
     public abstract class GenericManager<T> where T : class, IEntity
@@ -10,7 +12,8 @@
             this.options = options;
         }
 
-        
+        public GenericManager() { }
+
         public List<T> Load()
         {
             try
@@ -18,8 +21,9 @@
                 return new DVDCentralEntities(options)
                     .Set<T>()
                     .ToList<T>();
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -30,9 +34,10 @@
         {
             try
             {
-                return new DVDCentralEntities(options).Set<T>().Where(t => t.Id == id).FirstOrDefault();
+                var row = new DVDCentralEntities(options).Set<T>().Where(t => t.Id == id).FirstOrDefault();
+                return row;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -41,20 +46,38 @@
 
         public int Insert(T entity, bool rollback = false)
         {
-            int results = 0;
-            using (DVDCentralEntities dc = new DVDCentralEntities(options))
+            try
             {
-                IDbContextTransaction dbTransaction = null;
-                if (rollback) dbTransaction = dc.Database.BeginTransaction();
+                int results = 0;
+                using (DVDCentralEntities dc = new DVDCentralEntities(options))
+                {
+                    // Check if genre already exists - do not allow ....
+                    //bool inUse = dc.tblGenres.Any(e => e.Description.Trim().ToUpper() == entity.Description.Trim().ToUpper());
 
-                entity.Id = Guid.NewGuid();
+                    //if (inUse && !rollback)
+                    //{
+                    //    throw new Exception("This entity already exists.");
+                    //}
 
-                dc.Set<T>().Add(entity);
-                results = dc.SaveChanges();
+                    IDbContextTransaction dbTransaction = null;
+                    if (rollback) dbTransaction = dc.Database.BeginTransaction();
 
-                if (rollback) dbTransaction.Rollback();
-            }
+                    entity.Id = Guid.NewGuid();
+
+                    dc.Set<T>().Add(entity);
+                    results = dc.SaveChanges();
+
+                    if (rollback) dbTransaction.Rollback();
+
+                }
+
                 return results;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public int Update(T entity, bool rollback = false)

@@ -1,39 +1,53 @@
 namespace BJM.DVDCentral.BL.Test
 {
     [TestClass]
-    public class utRating
+    public class utRating : utBase
     {
         [TestMethod]
         public void LoadTest()
         {
-            Assert.AreEqual(5, RatingManager.Load().Count);
+            List<Rating> ratings = new RatingManager(options).Load();
+            int expected = 5;
+
+            Assert.AreEqual(expected, ratings.Count);
         }
+
         [TestMethod]
         public void InsertTest()
         {
             Rating rating = new Rating
             {
-                Description = "Test"
-        };
+                Description = "XXXXX"
+            };
 
-            int results = RatingManager.Insert(rating, true);
-            Assert.AreEqual(1, results);
+            int result = new RatingManager(options).Insert(rating, true);
+            Assert.IsTrue(result > 0);
         }
 
         [TestMethod]
         public void UpdateTest()
         {
-            Rating rating = RatingManager.LoadById(3);
-            rating.Description = "Test";
-            int results = RatingManager.Update(rating, true);
-            Assert.AreEqual(1, results);
+            Rating rating = new RatingManager(options).Load().FirstOrDefault();
+            rating.Description = "Blah blah";
+
+            Assert.IsTrue(new RatingManager(options).Update(rating, true) > 0);
         }
 
         [TestMethod]
         public void DeleteTest()
         {
-            int results = RatingManager.Delete(3, true);
-            Assert.AreEqual(1, results);
+            Rating rating = new RatingManager(options).Load().FirstOrDefault(x => x.Description == "Other");
+
+            Assert.IsTrue(new RatingManager(options).Delete(rating.Id, true) > 0);
         }
+
+        [TestMethod]
+        public void LoadByIdTest()
+        {
+            Rating rating = new RatingManager(options).Load().FirstOrDefault();
+            Assert.AreEqual(new RatingManager(options).LoadById(rating.Id).Id, rating.Id);
+        }
+
+
     }
 }

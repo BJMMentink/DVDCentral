@@ -36,7 +36,7 @@ namespace BJM.DVDCentral.PL.Test
 
             if (row != null)
             {
-                row.CustomerId = dc.tblCustomers.FirstOrDefault().Id;
+                row.OrderDate = DateTime.Now;
                 int rowsAffected = dc.SaveChanges();
 
                 Assert.AreEqual(1, rowsAffected);

@@ -1,5 +1,6 @@
 ﻿using BJM.DVDCentral.BL;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace BJM.DVDCentral.BL
 {
