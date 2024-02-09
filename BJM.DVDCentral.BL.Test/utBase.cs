@@ -24,7 +24,7 @@ namespace BJM.DVDCentral.BL.Test
             _configuration = builder.Build();
 
             options = new DbContextOptionsBuilder<DVDCentralEntities>()
-                .UseSqlServer(_configuration.GetConnectionString("DVDCentralConnection"))
+                .UseSqlServer(_configuration.GetConnectionString("DatabaseConnection"))
                 .UseLazyLoadingProxies()
                 .Options;
 
