@@ -20,56 +20,79 @@ namespace BJM.DVDCentral.API.Controllers
             this.logger = logger;
         }
         
-        
+        /// <summary>
+        /// Get a list of movies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<Genre> GetGenres()
         {
             return new GenreManager(options).Load();
         }
 
-        
+        /// <summary>
+        /// Return a particular Genre
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Genre Get(Guid id)
         {
             return new GenreManager(options).LoadById(id);
         }
-        [HttpPost]
-        public IActionResult Post([FromBody] Genre genre)
+        /// <summary>
+        /// Insert a genre
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <param name="rollback">Should be rollback the transaction</param>
+        /// <returns></returns>
+        [HttpPost("{rollback?}")]
+        public int Post([FromBody] Genre genre, bool rollback = false)
         {
             try
             {
-                int results = new GenreManager(options).Insert(genre);
-                return Ok(results);
+                return new GenreManager(options).Insert(genre, rollback);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                throw;
             }
         }
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Genre genre)
+        /// <summary>
+        /// Update a Genre
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <param name="id"></param>
+        /// <param name="rollback">Should be rollback the transaction</param>
+        /// <returns></returns>
+        [HttpPut("{id}/{rollback?}")]        
+        public int Put([FromBody] Genre genre, Guid id, bool rollback = false)
         {
             try
             {
-                int results = new GenreManager(options).Update(genre);
-                return Ok(results);
+                return new GenreManager(options).Update(genre, rollback);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                throw;
             }
         }
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        /// <summary>
+        /// Delete a genre
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rollback">Should be rollback the transaction</param>
+        /// <returns></returns>
+        [HttpDelete("{id}/{rollback?}")]
+        public int Delete(Guid id, bool rollback = false)
         {
             try
             {
-                int results = new GenreManager(options).Delete(id);
-                return Ok(results);
+                return new GenreManager(options).Delete(id, rollback);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                throw;
             }
         }
 

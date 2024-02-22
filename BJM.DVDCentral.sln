@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BJM.DVDCentral.WPFUI", "BJM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BJM.DVDCentral.ConsoleApp", "BJM.DVDCentral.ConsoleApp\BJM.DVDCentral.ConsoleApp.csproj", "{6C694684-D69A-4DD4-83F9-465E271D157E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BJM.DVDCentral.API.Test", "BJM.DVDCentral.API.Test\BJM.DVDCentral.API.Test.csproj", "{1C8209F5-7A6C-47D3-AC5C-1FB4BD63DB93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{6C694684-D69A-4DD4-83F9-465E271D157E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C694684-D69A-4DD4-83F9-465E271D157E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C694684-D69A-4DD4-83F9-465E271D157E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8209F5-7A6C-47D3-AC5C-1FB4BD63DB93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8209F5-7A6C-47D3-AC5C-1FB4BD63DB93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8209F5-7A6C-47D3-AC5C-1FB4BD63DB93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8209F5-7A6C-47D3-AC5C-1FB4BD63DB93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

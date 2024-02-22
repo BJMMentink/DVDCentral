@@ -133,54 +133,43 @@ namespace BJM.DVDCentral.BL
             try
             {
                 int results = 0;
+                tblOrder row = new tblOrder();
+                row.Id = Guid.NewGuid();
+                row.CustomerId = order.CustomerId;
+                row.OrderDate = DateTime.Now;
+                row.UserId = order.UserId;
+                row.ShipDate = row.OrderDate.AddDays(3);
+                row.OrderItems = new List<tblOrderItem>();
 
-                using (DVDCentralEntities dc = new DVDCentralEntities(options))
+                foreach (OrderItem item in order.OrderItems)
                 {
-                    IDbContextTransaction transaction = null;
-                    if (rollback) transaction = dc.Database.BeginTransaction();
+                    item.OrderId = row.Id;
+                    tblOrderItem oirow = new tblOrderItem();
 
-                    tblOrder newRow = new tblOrder();
-                    // Teranary operator
-                    newRow.Id = Guid.NewGuid();
-                    newRow.CustomerId = order.CustomerId;
-                    newRow.OrderDate = DateTime.Now;
-                    newRow.UserId = order.UserId;
-                    newRow.ShipDate = newRow.OrderDate.AddDays(3);
+                    oirow.Id = Guid.NewGuid();
+                    oirow.OrderId = item.OrderId;
+                    oirow.MovieId = item.MovieId;
+                    oirow.Quantity = item.Quantity;
+                    oirow.Cost = item.Cost;
 
-                    // Insert the row
-                    dc.tblOrders.Add(newRow);
+                    item.Id = row.Id;
 
-                    // save order items ....
-                    foreach (OrderItem item in order.OrderItems)
-                    {
-                        item.OrderId = newRow.Id;
-                        //results += new OrderItemManager(options).Insert(item, rollback);
-                        tblOrderItem row = new tblOrderItem();
+                    // 2nd most important thing
+                    // Setting the parent on the child
+                    oirow.Order = row;
 
-                        row.Id = Guid.NewGuid();
-                        row.OrderId = item.OrderId;
-                        row.MovieId = item.MovieId;
-                        row.Quantity = item.Quantity;
-                        row.Cost = item.Cost;
+                    // Add to the OrderItems and it will 
+                    // automatically be put in the database.
 
-                        item.Id = row.Id;
-
-                        dc.tblOrderItems.Add(row);
-                    }
-
-                    // Backfill the id on the input parameter order
-                    order.Id = newRow.Id;
-                    // Commit the changes and get the number of rows affected
-                    results += dc.SaveChanges();
-
-                    if (rollback) transaction.Rollback();
+                    row.OrderItems.Add(oirow);
                 }
-                return results;
+                return Insert(row, rollback);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
+
         }
 
 
